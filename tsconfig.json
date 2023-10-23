@@ -1,13 +1,15 @@
 {
-    "version": "2.4.2",
+    "version": "5.1.6",
     "compilerOptions": {
         "lib": ["es5", "es6"],
         "target": "es6",
-        "module": "commonjs",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true
+        "sourceMap": false,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
     },
     "exclude": [
         "node_modules"
