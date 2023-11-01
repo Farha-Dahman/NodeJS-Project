@@ -1,18 +1,15 @@
 import "reflect-metadata";
 import * as express from "express";
-import * as bodyParser from "body-parser";
-import * as dotenv from "dotenv";
-dotenv.config();
-const PORT = process.env.PORT || 5000;
+import { AppDataSource } from './data-source';
+import { config } from "dotenv";
+config();
+const PORT = process.env.PORT || 8000;
 
-const app = express();
-app.use(bodyParser.json());
+AppDataSource.initialize().then(() => {
+   const app = express();
+   app.use(express.json())
 
-app.use("/", (req,res)=>{
-    res.json({message : "hello"})
-});
-
-app.listen(PORT, ()=>{
+   return app.listen(process.env.POSTGRES_PORT, ()=>{
     console.log(`application is up and running on port ${PORT}`);
-});
-
+  });
+})
