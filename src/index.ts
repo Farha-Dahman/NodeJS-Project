@@ -9,7 +9,11 @@ AppDataSource.initialize().then(() => {
   const app = express();
   app.use(express.json());
 
-  return app.listen(process.env.POSTGRES_PORT, () => {
-    console.log(`application is up and running on port ${PORT}`);
+  app.get('/test', (req, res) => {
+    res.send('This is a test endpoint');
+  });
+
+  return app.listen(PORT, () => {
+    console.log(`Application is up and running on port ${PORT}`);
   });
 });
