@@ -1,7 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { User } from './User';
 
-@Entity({ name: 'comment'})
+@Entity({ name: 'comment' })
 export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
@@ -13,5 +19,5 @@ export class Comment {
   createdDate: Date;
 
   @ManyToOne(() => User, (user) => user.comments)
-  user: User
+  user: User;
 }

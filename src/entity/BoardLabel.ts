@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  ManyToMany,
+} from 'typeorm';
 import { Board } from './Board';
 import { Card } from './Card';
 
-@Entity({ name: "board_label" })
+@Entity({ name: 'board_label' })
 export class BoardLabel {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,7 +20,7 @@ export class BoardLabel {
   color: string;
 
   @ManyToOne(() => Board, (board) => board.labels)
-  board: Board
+  board: Board;
 
   @ManyToMany(() => Card, (card) => card.BoardLabels)
   cards: Card[];

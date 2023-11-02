@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { User } from './User';
 import { Card } from './Card';
 
-@Entity({ name: "card_activity" })
+@Entity({ name: 'card_activity' })
 export class CardActivity {
   @PrimaryGeneratedColumn()
   id: number;

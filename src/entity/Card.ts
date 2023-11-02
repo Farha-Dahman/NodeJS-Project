@@ -1,11 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, ManyToOne, CreateDateColumn, JoinTable } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  OneToMany,
+  ManyToOne,
+  CreateDateColumn,
+  JoinTable,
+} from 'typeorm';
 import { User } from './User';
 import { CardActivity } from './CardActivity';
 import { List } from './List';
 import { CardAttachment } from './CardAttachment';
 import { BoardLabel } from './BoardLabel';
 
-@Entity({ name: 'card'})
+@Entity({ name: 'card' })
 export class Card {
   @PrimaryGeneratedColumn()
   id: number;
@@ -35,7 +44,7 @@ export class Card {
   cardActivities: CardActivity[];
 
   @ManyToOne(() => List, (list) => list.cards)
-  list: List
+  list: List;
 
   @OneToMany(() => CardAttachment, (cardAttachments) => cardAttachments.card)
   cardAttachments: CardAttachment[];

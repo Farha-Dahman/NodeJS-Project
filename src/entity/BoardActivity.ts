@@ -1,13 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { User } from './User';
 import { Board } from './Board';
 
-@Entity({ name: "board_activity" })
+@Entity({ name: 'board_activity' })
 export class BoardActivity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'text' }) 
+  @Column({ type: 'text' })
   description: string;
 
   @CreateDateColumn()

@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Board } from './Board';
 import { Card } from './Card';
 
-@Entity({ name: 'list'})
+@Entity({ name: 'list' })
 export class List {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,7 +20,7 @@ export class List {
   position: number;
 
   @ManyToOne(() => Board, (board) => board.lists)
-  board: Board
+  board: Board;
 
   @OneToMany(() => Card, (card) => card.list)
   cards: Card[];

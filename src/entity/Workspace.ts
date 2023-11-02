@@ -9,13 +9,13 @@ export class Workspace {
 
   @Column({ type: 'varchar', length: 100 })
   name: string;
-  
-  @Column({ type: 'varchar', length: 50})
+
+  @Column({ type: 'varchar', length: 50 })
   type: string;
-  
+
   @Column({ type: 'text', nullable: true })
   description: string;
-  
+
   @OneToMany(() => User, (user) => user.workspaceUsers)
   workspaceUsers: WorkspaceUser[];
 }

@@ -1,22 +1,30 @@
-import {Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, ManyToMany, JoinTable} from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Comment } from './Comment';
 import { Notification } from './Notification';
-import { Card } from "./Card";
-import { BoardUser } from "./BoardUser";
-import { WorkspaceUser } from "./WorkspaceUser";
-import { BoardActivity } from "./BoardActivity";
-import { CardActivity } from "./CardActivity";
+import { Card } from './Card';
+import { BoardUser } from './BoardUser';
+import { WorkspaceUser } from './WorkspaceUser';
+import { BoardActivity } from './BoardActivity';
+import { CardActivity } from './CardActivity';
 
 @Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Index({unique: true})
+  @Index({ unique: true })
   @Column({ type: 'varchar', length: 255, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar',length: 1000, nullable: false})
+  @Column({ type: 'varchar', length: 1000, nullable: false })
   password: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -31,10 +39,10 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   jobTitle: string;
 
-  @Column({ type: "timestamptz", default: "now()"})
+  @Column({ type: 'timestamptz', default: 'now()' })
   createdAt: Date;
 
-  @Column({ type: "timestamptz" })
+  @Column({ type: 'timestamptz' })
   updatedAt: Date;
 
   @OneToMany(() => WorkspaceUser, (workspaceUsers) => workspaceUsers.user)
@@ -53,12 +61,12 @@ export class User {
   @JoinTable({ name: 'card_user' })
   cards: Card[];
 
-  @OneToMany(() => Comment, comment => comment.user)
+  @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
 
-  @OneToMany(() => Notification, notification => notification.sender)
+  @OneToMany(() => Notification, (notification) => notification.sender)
   sentNotifications: Notification[];
 
-  @OneToMany(() => Notification, notification => notification.receiver)
+  @OneToMany(() => Notification, (notification) => notification.receiver)
   receivedNotifications: Notification[];
 }

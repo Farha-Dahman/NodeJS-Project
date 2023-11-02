@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { User } from './User';
 // import { Board } from './Board';
 
-@Entity({ name: 'notification'})
+@Entity({ name: 'notification' })
 export class Notification {
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,10 +25,9 @@ export class Notification {
   @CreateDateColumn()
   timestamp: Date;
 
-  @ManyToOne(() => User, user => user.sentNotifications)
+  @ManyToOne(() => User, (user) => user.sentNotifications)
   sender: User;
 
-  @ManyToOne(() => User, user => user.receivedNotifications)
+  @ManyToOne(() => User, (user) => user.receivedNotifications)
   receiver: User;
-
 }

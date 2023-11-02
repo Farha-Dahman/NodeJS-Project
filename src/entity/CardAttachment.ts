@@ -1,7 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { Card } from './Card';
 
-@Entity({ name: "card_attachment" })
+@Entity({ name: 'card_attachment' })
 export class CardAttachment {
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,6 +22,5 @@ export class CardAttachment {
   location: string;
 
   @ManyToOne(() => Card, (card) => card.cardAttachments)
-  card: Card
-
+  card: Card;
 }

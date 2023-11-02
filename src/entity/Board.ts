@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+} from 'typeorm';
 import { BoardUser } from './BoardUser';
 import { BoardActivity } from './BoardActivity';
 import { List } from './List';
@@ -23,7 +29,7 @@ export class Board {
 
   @OneToMany(() => BoardActivity, (boardActivities) => boardActivities.board)
   boardActivities: BoardActivity[];
-  
+
   @OneToMany(() => List, (list) => list.board)
   lists: List[];
 
