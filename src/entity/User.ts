@@ -42,10 +42,10 @@ export class User {
   @Column({ default: 'Unknown', type: 'varchar', length: 100, nullable: true })
   jobTitle: string;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', default: new Date() })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', default: new Date() })
   updatedAt: Date;
   
   @OneToMany(() => WorkspaceUser, (workspaceUsers) => workspaceUsers.user)
