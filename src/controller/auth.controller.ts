@@ -30,9 +30,9 @@ export const signup = async (req: Request, res: Response) => {
     });
     await userRepository.save(newUser);
     return res.status(200).json({ message: 'success', newUser });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };
 
@@ -47,7 +47,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Invalid email or password' });
     }
     if (!user.confirmEmail) {
-      return res.status(404).json({ message: "Plz confirm your email" });
+      return res.status(404).json({ message: 'Plz confirm your email' });
     }
     const match = bcrypt.compareSync(password, user.password);
     if (!match) {
@@ -60,9 +60,9 @@ export const login = async (req: Request, res: Response) => {
       expiresIn: 60 * 60 * 24 * 7,
     });
     return res.status(200).json({ message: 'success', token, refreshToken });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };
 
