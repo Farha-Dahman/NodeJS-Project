@@ -28,7 +28,7 @@ export class User {
   password: string;
 
   @Column({ type: 'boolean', default: false })
-  confirmEmail: boolean;
+  isConfirmed: boolean;
   
   @Column({ type: 'varchar', length: 255 })
   fullName: string;

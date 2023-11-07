@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: 'Invalid email or password' });
     }
-    if (!user.confirmEmail) {
+    if (!user.isConfirmed) {
       return res.status(404).json({ message: 'Plz confirm your email' });
     }
     const match = bcrypt.compareSync(password, user.password);
@@ -73,13 +73,13 @@ export const confirmEmail = async (req: Request, res: Response) => {
     const userRepository = getRepository(User);
 
     const user = await userRepository.findOne({
-      where: { email: decode.email, confirmEmail: false },
+      where: { email: decode.email, isConfirmed: false },
     });
 
     if (!user) {
       return res.status(404).json({ message: 'Your Email already is verified!' });
     } else {
-      user.confirmEmail = true;
+      user.isConfirmed = true;
       await userRepository.save(user);
       return res.status(200).json({ message: 'Your email is confirmed successfully!' });
     }
