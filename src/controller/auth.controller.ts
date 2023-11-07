@@ -19,7 +19,7 @@ export const signup = async (req: Request, res: Response) => {
     const token = jwt.sign({ email }, process.env.EMAIL_TOKEN!, {
       expiresIn: '1h',
     });
-    const link = `http://localhost:8000/auth/confirmEmail/${token}`;
+    const link = `${process.env.BASE_URL}/auth/confirmEmail/${token}`;
     const html = `Click here to confirm your email <a href='${link}'>verify email</a>`;
     sendConfirmationEmail(email, 'Confirm Your Email', html);
 
