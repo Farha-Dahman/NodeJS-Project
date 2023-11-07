@@ -1,19 +1,24 @@
 import 'reflect-metadata';
-import * as express from 'express';
-import { AppDataSource } from './data-source';
+import express from 'express';
 import { config } from 'dotenv';
+import { AppRoutes } from './routes';
+import { connectDB } from '../DB/connection';
 config();
 const PORT = process.env.PORT || 8000;
+const app = express();
 
-AppDataSource.initialize().then(() => {
-  const app = express();
+async function startServer() {
+  await connectDB();
   app.use(express.json());
 
-  app.get('/test', (req, res) => {
-    res.send('This is a test endpoint');
+  AppRoutes.forEach((route) => {
+    const { method, path, action } = route;
+    (app as any)[method](path, action);
   });
 
-  return app.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log(`Application is up and running on port ${PORT}`);
   });
-});
+}
+
+startServer();
