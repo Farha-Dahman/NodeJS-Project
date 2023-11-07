@@ -27,6 +27,9 @@ export class User {
   @Column({ type: 'varchar', length: 1000, nullable: false })
   password: string;
 
+  @Column({ type: 'boolean', default: false })
+  confirmEmail: boolean;
+  
   @Column({ type: 'varchar', length: 255 })
   fullName: string;
 
@@ -36,15 +39,15 @@ export class User {
   @Column({ type: 'varchar', length: 100, nullable: true })
   phone: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ default: 'Unknown', type: 'varchar', length: 100, nullable: true })
   jobTitle: string;
 
-  @Column({ type: 'timestamptz', default: 'now()' })
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
-
+  
   @OneToMany(() => WorkspaceUser, (workspaceUsers) => workspaceUsers.user)
   workspaceUsers: WorkspaceUser[];
 
