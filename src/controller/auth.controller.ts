@@ -46,6 +46,9 @@ export const login = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: 'Invalid email or password' });
     }
+    if (!user.confirmEmail) {
+      return res.status(404).json({ message: "Plz confirm your email" });
+    }
     const match = bcrypt.compareSync(password, user.password);
     if (!match) {
       return res.status(404).json({ message: 'Invalid email or password' });
