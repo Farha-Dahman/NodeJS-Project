@@ -3,6 +3,7 @@ import express from 'express';
 import { config } from 'dotenv';
 import { AppRoutes } from './routes';
 import { connectDB } from '../DB/connection';
+import logger from './../logger';
 config();
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -17,7 +18,7 @@ async function startServer() {
   });
 
   app.listen(PORT, () => {
-    console.log(`Application is up and running on port ${PORT}`);
+    logger.info(`Server is running on port ${PORT}`);
   });
 }
 

@@ -19,7 +19,8 @@ export const AppRoutes = [
     path: '/user',
     method: 'use',
     action: userRouter,
-  },  {
+  },
+  {
     path: '*',
     method: 'all',
     action: (req: Request, res: Response) => {

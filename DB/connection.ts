@@ -1,12 +1,13 @@
 import { createConnection } from 'typeorm';
+import logger from '../logger';
 
 export const connectDB = async () => {
   try {
     const connection = await createConnection();
-    console.log('Connected to the database');
+    logger.info('Connected to the database'); 
     return connection;
   } catch (error) {
-    console.error(`Error when connecting to the database: ${error}`);
+    logger.error(`Error when connecting to the database: ${error}`);
     throw error;
   }
 };
