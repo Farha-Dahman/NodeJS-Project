@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import logger from '../../logger';
 
 const sendConfirmationEmail = async (to: string, subject: string, html: string) => {
   const transporter = nodemailer.createTransport({
@@ -15,7 +16,12 @@ const sendConfirmationEmail = async (to: string, subject: string, html: string) 
     html,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+    logger.info(`Email sent to: ${to}, Subject: ${subject}`);
+  } catch (error) {
+    logger.error(`Error sending email to ${to}: ${error}`);
+  }
 };
 
 export default sendConfirmationEmail;

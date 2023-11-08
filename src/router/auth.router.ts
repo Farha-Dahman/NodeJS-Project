@@ -2,6 +2,7 @@ import express from 'express';
 import * as authController from '../controller/auth.controller';
 import { loginSchema, signupSchema } from '../schema/auth.schema';
 import { validation } from '../middleware/validation';
+import logger from '../../logger';
 const authRouter = express.Router();
 
 const authRoutes = [
@@ -28,6 +29,7 @@ authRoutes.forEach((route) => {
   const { method, path, middleware, handler } = route;
   const routeHandlers = middleware ? [middleware, handler] : [handler];
   (authRouter as any)[method](path, ...routeHandlers);
+  logger.info(`Route configured: ${method} ${path}`); 
 });
 
 export default authRouter;
