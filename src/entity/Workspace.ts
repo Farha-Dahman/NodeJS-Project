@@ -16,6 +16,6 @@ export class Workspace {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @OneToMany(() => User, (user) => user.workspaceUsers)
+  @OneToMany(() => User, (user) => user.workspaceUsers, { cascade: true, onDelete: 'CASCADE' })
   workspaceUsers: WorkspaceUser[];
 }

@@ -21,7 +21,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     const authUser = await userRepository.findOne({
       where: { id: decoded.id },
-      select: ['fullName', 'email'],
+      select: ['id', 'fullName', 'email'],
     });
     if (!authUser) {
       logger.warn('Not registered user');

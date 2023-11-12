@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import authRouter from './router/auth.router';
 import userRouter from './router/user.router';
+import workspaceRouter from './router/workspace.router';
 
 export const AppRoutes = [
   {
@@ -19,6 +20,11 @@ export const AppRoutes = [
     path: '/user',
     method: 'use',
     action: userRouter,
+  },
+  {
+    path: '/w',
+    method: 'use',
+    action: workspaceRouter,
   },
   {
     path: '*',
