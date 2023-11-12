@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import authRouter from './router/auth.router';
 import userRouter from './router/user.router';
 import workspaceRouter from './router/workspace.router';
+import boardRouter from './router/board.router';
 
 export const AppRoutes = [
   {
@@ -25,6 +26,11 @@ export const AppRoutes = [
     path: '/w',
     method: 'use',
     action: workspaceRouter,
+  },
+  {
+    path: '/b',
+    method: 'use',
+    action: boardRouter,
   },
   {
     path: '*',
