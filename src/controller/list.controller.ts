@@ -112,7 +112,7 @@ export const deleteList = async (req: Request, res: Response) => {
   }
 };
 
-export const archiveList = async (req: Request, res: Response) => {
+const archiveState = async (req: Request, res: Response, isArchived: boolean) => {
   const { id } = req.params;
   const listRepository = getRepository(List);
   try {
@@ -120,43 +120,33 @@ export const archiveList = async (req: Request, res: Response) => {
     const list = await listRepository.findOne({
       where: { id: numericId },
     });
+
     if (!list) {
       logger.info('List not found');
       return res.status(404).json({ message: 'List not found!' });
     }
 
-    list.isArchived = true;
+    list.isArchived = isArchived;
     await listRepository.save(list);
-    logger.info('List archived successfully');
+
+    const action = isArchived ? 'archived' : 'unarchived';
+    logger.info(`List ${action} successfully`);
     return res.status(200).json({ message: 'success', list });
   } catch (error: any) {
-    logger.error(`Error in archiveList endpoint: ${error}`);
+    const action = isArchived ? 'archiving' : 'unarchiving';
+    logger.error(`Error in ${action} list endpoint: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
+};
+
+export const archiveList = async (req: Request, res: Response) => {
+  await archiveState(req, res, true);
 };
 
 export const unarchiveList = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const listRepository = getRepository(List);
-  try {
-    const numericId = parseInt(id, 10);
-    const list = await listRepository.findOne({
-      where: { id: numericId },
-    });
-    if (!list) {
-      logger.info('List not found');
-      return res.status(404).json({ message: 'List not found!' });
-    }
-
-    list.isArchived = false;
-    await listRepository.save(list);
-    logger.info('List unarchive successfully');
-    return res.status(200).json({ message: 'success', list });
-  } catch (error: any) {
-    logger.error(`Error in unarchiveList endpoint: ${error}`);
-    return res.status(500).json({ message: error.message || 'Internal Server Error' });
-  }
+  await archiveState(req, res, false);
 };
+
 
 export const getAllList = async (req: Request, res: Response) => {
   const { boardId } = req.params;
