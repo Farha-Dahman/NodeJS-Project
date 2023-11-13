@@ -12,13 +12,13 @@ const boardRoutes = [
     handler: boardController.createBoard,
   },
   {
-    method: 'put',
+    method: 'patch',
     path: '/:id/close',
     middleware: auth,
     handler: boardController.closeBoard,
   },
   {
-    method: 'put',
+    method: 'patch',
     path: '/:id/re-open',
     middleware: auth,
     handler: boardController.reopenBoard,

@@ -3,6 +3,7 @@ import authRouter from './router/auth.router';
 import userRouter from './router/user.router';
 import workspaceRouter from './router/workspace.router';
 import boardRouter from './router/board.router';
+import listRouter from './router/list.router';
 
 export const AppRoutes = [
   {
@@ -31,6 +32,11 @@ export const AppRoutes = [
     path: '/b',
     method: 'use',
     action: boardRouter,
+  },
+  {
+    path: '/l',
+    method: 'use',
+    action: listRouter,
   },
   {
     path: '*',
