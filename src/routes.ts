@@ -5,6 +5,7 @@ import workspaceRouter from './router/workspace.router';
 import boardRouter from './router/board.router';
 import listRouter from './router/list.router';
 import cardRouter from './router/card.router';
+import labelRouter from './router/label.router';
 
 export const AppRoutes = [
   {
@@ -43,6 +44,11 @@ export const AppRoutes = [
     path: '/c',
     method: 'use',
     action: cardRouter,
+  },
+  {
+    path: '/labels',
+    method: 'use',
+    action: labelRouter,
   },
   {
     path: '*',
