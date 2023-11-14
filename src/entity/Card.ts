@@ -22,7 +22,7 @@ export class Card {
   @Column({ type: 'varchar', length: 100 })
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column({ type: 'boolean', default: false })
@@ -40,16 +40,16 @@ export class Card {
   @ManyToMany(() => User, (user) => user.cards)
   users: User[];
 
-  @OneToMany(() => CardActivity, (cardActivities) => cardActivities.card)
+  @OneToMany(() => CardActivity, (cardActivities) => cardActivities.card, { cascade: true, onDelete: 'CASCADE' })
   cardActivities: CardActivity[];
 
   @ManyToOne(() => List, (list) => list.cards)
   list: List;
 
-  @OneToMany(() => CardAttachment, (cardAttachments) => cardAttachments.card)
+  @OneToMany(() => CardAttachment, (cardAttachments) => cardAttachments.card, { cascade: true, onDelete: 'CASCADE' })
   cardAttachments: CardAttachment[];
 
-  @ManyToMany(() => BoardLabel, (label) => label.cards)
+  @ManyToMany(() => BoardLabel, (label) => label.cards, { cascade: true, onDelete: 'CASCADE' })
   @JoinTable({ name: 'card_label' })
   BoardLabels: BoardLabel[];
 }
