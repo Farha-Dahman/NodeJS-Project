@@ -115,13 +115,14 @@ export const deleteWorkspace = async (req: Request, res: Response) => {
       logger.info('Workspace not found');
       return res.status(404).json({ message: 'Workspace not found!' });
     }
-    const isMember = await workspaceUserRepository.findOne({
+    const isAdmin = await workspaceUserRepository.findOne({
       where: {
         userId: user.id,
         workspaceId: numericId,
+        isAdmin: true,
       },
     });
-    if (!isMember) {
+    if (!isAdmin) {
       logger.info('User can not be deleted! User is not a member of this workspace');
       return res
         .status(403)

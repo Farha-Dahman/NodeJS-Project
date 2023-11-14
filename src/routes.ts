@@ -4,6 +4,7 @@ import userRouter from './router/user.router';
 import workspaceRouter from './router/workspace.router';
 import boardRouter from './router/board.router';
 import listRouter from './router/list.router';
+import cardRouter from './router/card.router';
 
 export const AppRoutes = [
   {
@@ -37,6 +38,11 @@ export const AppRoutes = [
     path: '/l',
     method: 'use',
     action: listRouter,
+  },
+  {
+    path: '/c',
+    method: 'use',
+    action: cardRouter,
   },
   {
     path: '*',
