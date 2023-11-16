@@ -14,10 +14,10 @@ export class CardActivity {
   id: number;
 
   @Column({ type: 'text' })
-  description: string;
+  action: string;
 
   @CreateDateColumn()
-  createdDate: Date;
+  timestamp: Date;
 
   @ManyToOne(() => User, (user) => user.cardActivities)
   user: User;
