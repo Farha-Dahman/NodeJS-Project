@@ -5,6 +5,7 @@ import { List } from '../entity/List';
 import logger from '../../logger';
 import { BoardUser } from '../entity/BoardUser';
 import { User } from '../entity/User';
+import { CardActivity } from '../entity/CardActivity';
 
 export const createCard = async (req: Request, res: Response) => {
   const { listId } = req.params;
@@ -90,6 +91,7 @@ export const updateCard = async (req: Request, res: Response) => {
 
     await cardRepository.save(card);
     logger.info('Card updated successfully');
+    logActivity(user,`update card #${numericId}`, card);
     return res.status(200).json({ message: 'success', card });
   } catch (error: any) {
     console.error('Error updating card:', error);
@@ -115,6 +117,8 @@ const archiveState = async (req: Request, res: Response, isArchived: boolean) =>
     await cardRepository.save(card);
 
     const action = isArchived ? 'archived' : 'unarchived';
+    const { user } = req as any;
+    logActivity(user,`${action} card #${id}`, card);
     logger.info(`Card ${action} successfully`);
     return res.status(200).json({ message: 'success', card });
   } catch (error: any) {
@@ -238,6 +242,7 @@ export const addMemberToCard = async (req: Request, res: Response) => {
     card.users.push(user);
     await cardRepository.save(card);
     logger.info('User added to the card successfully');
+    logActivity(user,`add ${user.fullName}to card`, card);
     return res.status(201).json({ message: 'User added to the card successfully!' });
   } catch (error: any) {
     logger.error(`Error adding user to card: ${error}`);
@@ -269,6 +274,7 @@ export const deleteMemberFromCard = async (req: Request, res: Response) => {
     card.users = card.users.filter((user) => user.id !== numericUserId);
     await cardRepository.save(card);
 
+    logActivity(userToRemove,`delete member #${id} from card`, card);
     logger.info('User removed from the card successfully');
     return res.status(200).json({ message: 'User removed from the card successfully!' });
   } catch (error: any) {
@@ -297,6 +303,42 @@ export const getAllMembersForCard = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'success', members });
   } catch (error: any) {
     logger.error(`Error fetching members for card: ${error}`);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const logActivity = async (user: any, action: string, card: Card) => {
+  try {
+    const activityLogRepository = getRepository(CardActivity);
+    const newLog = activityLogRepository.create({
+      user,
+      action,
+      timestamp: new Date(),
+      card,
+    });
+
+    await activityLogRepository.save(newLog);
+    logger.info('Activity logged successfully');
+    console.log('Activity logged successfully');
+  } catch (error: any) {
+    logger.error('Error logging activity:', error);
+  }
+};
+
+export const getActivities = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const numericId = parseInt(id, 10);
+    const activityLogRepository = getRepository(CardActivity);
+
+    const activities = await activityLogRepository.find({
+      where: { card: { id: numericId } },
+    });
+
+    logger.info('Fetching card activities successfully');
+    return res.status(200).json({ message: 'success', activities });
+  } catch (error: any) {
+    logger.error('Error fetching card activities:', error);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };

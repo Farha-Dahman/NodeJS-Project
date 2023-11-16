@@ -59,6 +59,12 @@ const cardRoutes = [
     middleware: auth,
     handler: cardController.getAllMembersForCard,
   },
+  {
+    method: 'get',
+    path: '/:id/activities',
+    middleware: auth,
+    handler: cardController.getActivities,
+  }
 ];
 
 cardRoutes.forEach((route) => {
