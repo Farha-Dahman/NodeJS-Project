@@ -6,6 +6,7 @@ import logger from '../../logger';
 import { BoardUser } from '../entity/BoardUser';
 import { User } from '../entity/User';
 import { CardActivity } from '../entity/CardActivity';
+import { Comment } from '../entity/Comment';
 
 export const createCard = async (req: Request, res: Response) => {
   const { listId } = req.params;
@@ -91,7 +92,7 @@ export const updateCard = async (req: Request, res: Response) => {
 
     await cardRepository.save(card);
     logger.info('Card updated successfully');
-    logActivity(user,`update card #${numericId}`, card);
+    logActivity(user, `update card #${numericId}`, card);
     return res.status(200).json({ message: 'success', card });
   } catch (error: any) {
     console.error('Error updating card:', error);
@@ -118,7 +119,7 @@ const archiveState = async (req: Request, res: Response, isArchived: boolean) =>
 
     const action = isArchived ? 'archived' : 'unarchived';
     const { user } = req as any;
-    logActivity(user,`${action} card #${id}`, card);
+    logActivity(user, `${action} card #${id}`, card);
     logger.info(`Card ${action} successfully`);
     return res.status(200).json({ message: 'success', card });
   } catch (error: any) {
@@ -242,7 +243,7 @@ export const addMemberToCard = async (req: Request, res: Response) => {
     card.users.push(user);
     await cardRepository.save(card);
     logger.info('User added to the card successfully');
-    logActivity(user,`add ${user.fullName}to card`, card);
+    logActivity(user, `add ${user.fullName}to card`, card);
     return res.status(201).json({ message: 'User added to the card successfully!' });
   } catch (error: any) {
     logger.error(`Error adding user to card: ${error}`);
@@ -274,7 +275,7 @@ export const deleteMemberFromCard = async (req: Request, res: Response) => {
     card.users = card.users.filter((user) => user.id !== numericUserId);
     await cardRepository.save(card);
 
-    logActivity(userToRemove,`delete member #${id} from card`, card);
+    logActivity(userToRemove, `delete member #${id} from card`, card);
     logger.info('User removed from the card successfully');
     return res.status(200).json({ message: 'User removed from the card successfully!' });
   } catch (error: any) {
@@ -339,6 +340,93 @@ export const getActivities = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'success', activities });
   } catch (error: any) {
     logger.error('Error fetching card activities:', error);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const addComment = async (req: Request, res: Response) => {
+  const { cardId } = req.params;
+  const { content } = req.body;
+  const { user } = req as any;
+  const commentRepository = getRepository(Comment);
+  const cardRepository = getRepository(Card);
+  try {
+    const numericCardId = parseInt(cardId, 10);
+    const card = await cardRepository.findOne({ where: { id: numericCardId } });
+    if (!card) {
+      logger.info('Card not found');
+      return res.status(404).json({ message: 'Card not found!' });
+    }
+
+    const newComment = commentRepository.create({
+      content,
+      user,
+      card,
+    });
+
+    await commentRepository.save(newComment);
+    logger.info('adding comment successfully');
+    return res.status(201).json({ message: 'success', comment: newComment });
+  } catch (error: any) {
+    logger.error('Error adding comment:', error);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const deleteComment = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const commentRepository = getRepository(Comment);
+  try {
+    const numericCommentId = parseInt(id, 10);
+    const comment = await commentRepository.findOne({ where: { id: numericCommentId } });
+    if (!comment) {
+      logger.info('Comment not found');
+      return res.status(404).json({ message: 'Comment not found!' });
+    }
+
+    await commentRepository.remove(comment);
+    logger.info('Comment deleted successfully');
+    return res.status(200).json({ message: 'success' });
+  } catch (error: any) {
+    logger.error('Error deleting comment:', error);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const editComment = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { content } = req.body;
+  const commentRepository = getRepository(Comment);
+  try {
+    const numericCommentId = parseInt(id, 10);
+    const comment = await commentRepository.findOne({ where: { id: numericCommentId } });
+
+    if (!comment) {
+      logger.info('Comment not found');
+      return res.status(404).json({ message: 'Comment not found!' });
+    }
+
+    comment.content = content;
+    await commentRepository.save(comment);
+    logger.info('Comment updated successfully');
+    return res.status(200).json({ message: 'success', comment });
+  } catch (error: any) {
+    logger.error('Error updating comment:', error);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const getAllComments = async (req: Request, res: Response) => {
+  const { cardId } = req.params;
+  const commentRepository = getRepository(Comment);
+  try {
+    const numericCardId = parseInt(cardId, 10);
+    const comments = await commentRepository.find({ where: { card: { id: numericCardId } } });
+
+    logger.info('fetching comments successfully');
+    return res.status(200).json({ message: 'success', comments });
+  } catch (error: any) {
+    logger.error('Error fetching comments:', error);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };

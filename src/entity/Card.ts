@@ -13,6 +13,7 @@ import { CardActivity } from './CardActivity';
 import { List } from './List';
 import { CardAttachment } from './CardAttachment';
 import { BoardLabel } from './BoardLabel';
+import { Comment } from './Comment';
 
 @Entity({ name: 'card' })
 export class Card {
@@ -52,4 +53,7 @@ export class Card {
   @ManyToMany(() => BoardLabel, (label) => label.cards, { cascade: true, onDelete: 'CASCADE' })
   @JoinTable({ name: 'card_label' })
   BoardLabels: BoardLabel[];
+
+  @OneToMany(() => Comment, (comments) => comments.card, { cascade: true, onDelete: 'CASCADE' })
+  comments: Comment[];
 }

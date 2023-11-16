@@ -64,6 +64,30 @@ const cardRoutes = [
     path: '/:id/activities',
     middleware: auth,
     handler: cardController.getActivities,
+  },
+  {
+    method: 'post',
+    path: '/:cardId/comment',
+    middleware: auth,
+    handler: cardController.addComment,
+  },
+  {
+    method: 'delete',
+    path: '/:id/comment',
+    middleware: auth,
+    handler: cardController.deleteComment,
+  },
+  {
+    method: 'patch',
+    path: '/:id/comment',
+    middleware: auth,
+    handler: cardController.editComment,
+  },
+  {
+    method: 'get',
+    path: '/:cardId/comments',
+    middleware: auth,
+    handler: cardController.getAllComments,
   }
 ];
 
