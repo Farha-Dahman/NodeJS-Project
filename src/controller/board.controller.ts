@@ -5,6 +5,7 @@ import { Board } from '../entity/Board';
 import { BoardUser } from '../entity/BoardUser';
 import logger from '../../logger';
 import { User } from '../entity/User';
+import { BoardActivity } from '../entity/BoardActivity';
 
 export const createBoard = async (req: Request, res: Response) => {
   const { name, WorkspaceName, isPublic } = req.body;
@@ -61,14 +62,16 @@ export const closeBoard = async (req: Request, res: Response) => {
     const board = await boardRepository.findOne({
       where: { id: numericId },
     });
-
+    
     if (!board) {
       logger.info('Board not found');
       return res.status(404).json({ message: 'Board not found!' });
     }
-
+    
     board.isClosed = true;
     await boardRepository.save(board);
+    const { user } = req as any;
+    logActivity(user,`closed board #${numericId}`, board);
     logger.info('Board closed successfully');
     return res.status(200).json({ message: 'Board closed successfully' });
   } catch (error: any) {
@@ -85,14 +88,16 @@ export const reopenBoard = async (req: Request, res: Response) => {
     const board = await boardRepository.findOne({
       where: { id: numericId },
     });
-
+    
     if (!board) {
       logger.info('Board not found');
       return res.status(404).json({ message: 'Board not found!' });
     }
-
+    
     board.isClosed = false;
     await boardRepository.save(board);
+    const { user } = req as any;
+    logActivity(user,`re-opened board #${numericId}`, board);
     logger.info('Board opened successfully');
     return res.status(200).json({ message: 'Board opened successfully' });
   } catch (error: any) {
@@ -249,6 +254,7 @@ export const updateBoard = async (req: Request, res: Response) => {
       board.isPublic = req.body.isPublic;
     }
     await boardRepository.save(board);
+    logActivity(user,`update board #${numericId}`, board);
     logger.info('Board updated successfully');
     return res.status(200).json({ message: 'Board updated successfully', board });
   } catch (error: any) {
@@ -296,8 +302,9 @@ export const addMemberToBoard = async (req: Request, res: Response) => {
       isAdmin: false,
     });
     await boardUserRepository.save(newMember);
+    logActivity(user,`added new member ${user.fullName}to the board #${numericId}`, board);
     logger.info('User added to the board successfully');
-    return res.status(201).json({ message: 'User added to the board successfully!' });
+    return res.status(201).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error adding user to board: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
@@ -331,8 +338,10 @@ export const removeMemberFromBoard = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User is not a member of this board!' });
     }
     await boardUserRepository.remove(member);
+    const { user } = req as any;
+    logActivity(user,`deleted #${userId} member from the board #${numericBoardId}`, board);
     logger.info('User removed from the board successfully');
-    return res.status(200).json({ message: 'User removed from the board successfully!' });
+    return res.status(200).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error removing user from board: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
@@ -366,6 +375,42 @@ export const getAllMembers = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'success', members });
   } catch (error: any) {
     logger.error(`Error when get all members of board: ${error}`);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const logActivity = async (user: any, action: string, board: Board) => {
+  try {
+    const activityLogRepository = getRepository(BoardActivity);
+    const newLog = activityLogRepository.create({
+      user,
+      action,
+      timestamp: new Date(),
+      board,
+    });
+
+    await activityLogRepository.save(newLog);
+    logger.info('Activity logged successfully');
+    console.log('Activity logged successfully');
+  } catch (error: any) {
+    logger.error('Error logging activity:', error);
+  }
+};
+
+export const getActivities = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const numericId = parseInt(id, 10);
+    const activityLogRepository = getRepository(BoardActivity);
+
+    const activities = await activityLogRepository.find({
+      where: { board: { id: numericId } },
+    });
+
+    logger.info('Fetching board activities successfully');
+    return res.status(200).json({ message: 'success', activities });
+  } catch (error: any) {
+    logger.error('Error fetching board activities:', error);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };

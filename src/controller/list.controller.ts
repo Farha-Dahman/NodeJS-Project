@@ -4,6 +4,7 @@ import { List } from '../entity/List';
 import { Board } from '../entity/Board';
 import logger from '../../logger';
 import { BoardUser } from '../entity/BoardUser';
+import { logActivity } from './board.controller';
 
 export const createList = async (req: Request, res: Response) => {
   const { boardId } = req.params;
@@ -32,6 +33,7 @@ export const createList = async (req: Request, res: Response) => {
     });
 
     await listRepository.save(newList);
+    logActivity(user,`created List ${newList.title}`, board);
     logger.info('List created successfully');
     return res.status(201).json({ message: 'List created successfully', list: newList });
   } catch (error: any) {
@@ -66,6 +68,8 @@ export const updateList = async (req: Request, res: Response) => {
       list.position = req.body.position;
     }
     await listRepository.save(list);
+    const { user } = req as any;
+    logActivity(user,`updated List #${id}`, list.board);
     logger.info('List updated successfully');
     return res.status(200).json({ message: 'success', list });
   } catch (error: any) {
@@ -105,6 +109,7 @@ export const deleteList = async (req: Request, res: Response) => {
     }
     await listRepository.remove(list);
     logger.info('List deleted successfully');
+    logActivity(user,`deleted List ${list.title}`, list.board);
     return res.status(200).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error when deleting list: ${error}`);
@@ -119,6 +124,7 @@ const archiveState = async (req: Request, res: Response, isArchived: boolean) =>
     const numericId = parseInt(id, 10);
     const list = await listRepository.findOne({
       where: { id: numericId },
+      relations: ['board'],
     });
 
     if (!list) {
@@ -130,6 +136,8 @@ const archiveState = async (req: Request, res: Response, isArchived: boolean) =>
     await listRepository.save(list);
 
     const action = isArchived ? 'archived' : 'unarchived';
+    const { user } = req as any;
+    logActivity(user,`${action} List #${id}`, list.board);
     logger.info(`List ${action} successfully`);
     return res.status(200).json({ message: 'success', list });
   } catch (error: any) {

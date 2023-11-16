@@ -65,6 +65,12 @@ const boardRoutes = [
     middleware: auth,
     handler: boardController.getAllMembers,
   },
+  {
+    method: 'get',
+    path: '/:id/activities',
+    middleware: auth,
+    handler: boardController.getActivities,
+  }
 ];
 
 boardRoutes.forEach((route) => {
