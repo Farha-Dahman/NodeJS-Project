@@ -37,13 +37,13 @@ export class Card {
   @CreateDateColumn()
   createdDate: Date;
 
-  @ManyToMany(() => User, (user) => user.cards)
+  @ManyToMany(() => User, (user) => user.cards, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   users: User[];
 
   @OneToMany(() => CardActivity, (cardActivities) => cardActivities.card, { cascade: true, onDelete: 'CASCADE' })
   cardActivities: CardActivity[];
 
-  @ManyToOne(() => List, (list) => list.cards)
+  @ManyToOne(() => List, (list) => list.cards, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   list: List;
 
   @OneToMany(() => CardAttachment, (cardAttachments) => cardAttachments.card, { cascade: true, onDelete: 'CASCADE' })
