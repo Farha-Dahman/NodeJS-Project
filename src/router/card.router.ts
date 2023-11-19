@@ -1,7 +1,9 @@
 import express from 'express';
 import * as cardController from '../controller/card.controller';
+import * as attachmentController from '../controller/attachment.controller';
 import { auth } from '../middleware/auth.middleware';
 import logger from '../../logger';
+import fileUpload, { attachmentValidation } from '../middleware/multer';
 const cardRouter = express.Router();
 
 const cardRoutes = [
@@ -88,7 +90,34 @@ const cardRoutes = [
     path: '/:cardId/comments',
     middleware: auth,
     handler: cardController.getAllComments,
-  }
+  },
+  {
+    method: 'post',
+    path: '/:cardId/attachments',
+    middleware: [
+      fileUpload(attachmentValidation.image.concat(attachmentValidation.file)).single('attachment'),
+      auth,
+    ],
+    handler: attachmentController.uploadAttachment,
+  },
+  {
+    method: 'delete',
+    path: '/:attachmentId/attachments',
+    middleware: auth,
+    handler: attachmentController.deleteAttachment,
+  },
+  {
+    method: 'patch',
+    path: '/:attachmentId/attachments',
+    middleware: auth,
+    handler: attachmentController.updateAttachment,
+  },
+  {
+    method: 'get',
+    path: '/:cardId/attachments',
+    middleware: auth,
+    handler: attachmentController.getAllAttachments,
+  },
 ];
 
 cardRoutes.forEach((route) => {
