@@ -7,6 +7,7 @@ import { BoardUser } from '../entity/BoardUser';
 import { User } from '../entity/User';
 import { CardActivity } from '../entity/CardActivity';
 import { Comment } from '../entity/Comment';
+import { NotificationService } from '../services/notification';
 
 export const createCard = async (req: Request, res: Response) => {
   const { listId } = req.params;
@@ -218,6 +219,7 @@ export const addMemberToCard = async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
   try {
     const numericId = parseInt(id, 10);
+    const { user } = req as any;
     const card = await cardRepository.findOne({
       where: { id: numericId },
       relations: ['users'],
@@ -228,23 +230,30 @@ export const addMemberToCard = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Card not found!' });
     }
 
-    const user = await userRepository.findOne({ where: { email } });
-    if (!user) {
+    const newUser = await userRepository.findOne({ where: { email } });
+    if (!newUser) {
       logger.info('User not found');
       return res.status(404).json({ message: 'User not found!' });
     }
 
-    const isMember = card.users.some((existingUser) => existingUser.id === user.id);
+    const isMember = card.users.some((existingUser) => existingUser.id === newUser.id);
     if (isMember) {
       logger.info('User is already a member of this card');
       return res.status(409).json({ message: 'User is already a member of this card!' });
     }
 
-    card.users.push(user);
+    card.users.push(newUser);
     await cardRepository.save(card);
+    const notificationService = new NotificationService();
+    await notificationService.sendNotification(
+      user.id,
+      newUser.id,
+      'Added',
+      `You have been added to the card "${card.title}"`,
+    );
     logger.info('User added to the card successfully');
     logActivity(user, `add ${user.fullName}to card`, card);
-    return res.status(201).json({ message: 'User added to the card successfully!' });
+    return res.status(201).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error adding user to card: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
@@ -274,10 +283,17 @@ export const deleteMemberFromCard = async (req: Request, res: Response) => {
     }
     card.users = card.users.filter((user) => user.id !== numericUserId);
     await cardRepository.save(card);
-
+    const { user } = req as any;
+    const notificationService = new NotificationService();
+    await notificationService.sendNotification(
+      user.id,
+      userToRemove.id,
+      'Removed',
+      `You have been removed from the card "${card.title}"`,
+    );
     logActivity(userToRemove, `delete member #${id} from card`, card);
     logger.info('User removed from the card successfully');
-    return res.status(200).json({ message: 'User removed from the card successfully!' });
+    return res.status(200).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error removing user from card: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });

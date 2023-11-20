@@ -6,6 +6,7 @@ import boardRouter from './router/board.router';
 import listRouter from './router/list.router';
 import cardRouter from './router/card.router';
 import labelRouter from './router/label.router';
+import notificationRouter from './router/notification.router';
 
 export const AppRoutes = [
   {
@@ -49,6 +50,11 @@ export const AppRoutes = [
     path: '/labels',
     method: 'use',
     action: labelRouter,
+  },
+  {
+    path: '/n',
+    method: 'use',
+    action: notificationRouter,
   },
   {
     path: '*',

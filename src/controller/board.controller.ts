@@ -6,6 +6,7 @@ import { BoardUser } from '../entity/BoardUser';
 import logger from '../../logger';
 import { User } from '../entity/User';
 import { BoardActivity } from '../entity/BoardActivity';
+import { NotificationService } from '../services/notification';
 
 export const createBoard = async (req: Request, res: Response) => {
   const { name, WorkspaceName, isPublic } = req.body;
@@ -279,15 +280,15 @@ export const addMemberToBoard = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Board not found!' });
     }
 
-    const user = await userRepository.findOne({ where: { email } });
-    if (!user) {
+    const newUser = await userRepository.findOne({ where: { email } });
+    if (!newUser) {
       logger.info('User not found');
       return res.status(404).json({ message: 'User not found!' });
     }
 
     const isMember = await boardUserRepository.findOne({
       where: {
-        userId: user.id,
+        userId: newUser.id,
         boardId: numericId,
       },
     });
@@ -297,11 +298,19 @@ export const addMemberToBoard = async (req: Request, res: Response) => {
     }
 
     const newMember = boardUserRepository.create({
-      userId: user.id,
+      userId: newUser.id,
       boardId: numericId,
       isAdmin: false,
     });
     await boardUserRepository.save(newMember);
+    const { user } = req as any;
+    const notificationService = new NotificationService();
+    await notificationService.sendNotification(
+      user.id,
+      newUser.id,
+      'Added',
+      `You have been added to the board "${board.name}"`,
+    );
     logActivity(user,`added new member ${user.fullName}to the board #${numericId}`, board);
     logger.info('User added to the board successfully');
     return res.status(201).json({ message: 'success' });
@@ -339,6 +348,13 @@ export const removeMemberFromBoard = async (req: Request, res: Response) => {
     }
     await boardUserRepository.remove(member);
     const { user } = req as any;
+    const notificationService = new NotificationService();
+    await notificationService.sendNotification(
+      user.id,
+      member.userId,
+      'Removed',
+      `You have been removed from the board "${board.name}"`,
+    );
     logActivity(user,`deleted #${userId} member from the board #${numericBoardId}`, board);
     logger.info('User removed from the board successfully');
     return res.status(200).json({ message: 'success' });

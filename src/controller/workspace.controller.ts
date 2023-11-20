@@ -4,6 +4,7 @@ import { Workspace } from '../entity/Workspace';
 import { WorkspaceUser } from '../entity/WorkspaceUser';
 import logger from '../../logger';
 import { User } from '../entity/User';
+import { NotificationService } from '../services/notification';
 
 export const createWorkspace = async (req: Request, res: Response) => {
   const { name, type, description } = req.body;
@@ -206,15 +207,15 @@ export const addUserToWorkspace = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Workspace not found!' });
     }
 
-    const user = await userRepository.findOne({ where: { email } });
-    if (!user) {
+    const newUser = await userRepository.findOne({ where: { email } });
+    if (!newUser) {
       logger.info('User not found');
       return res.status(404).json({ message: 'User not found!' });
     }
 
     const isMember = await workspaceUserRepository.findOne({
       where: {
-        userId: user.id,
+        userId: newUser.id,
         workspaceId: numericId,
       },
     });
@@ -224,13 +225,21 @@ export const addUserToWorkspace = async (req: Request, res: Response) => {
     }
 
     const workspaceUser = workspaceUserRepository.create({
-      userId: user.id,
+      userId: newUser.id,
       workspaceId: numericId,
       isAdmin: false,
     });
     await workspaceUserRepository.save(workspaceUser);
+    const { user } = req as any;
+    const notificationService = new NotificationService();
+    await notificationService.sendNotification(
+      user.id,
+      newUser.id,
+      'Added',
+      `You have been added to the workspace "${workspace.name}"`,
+    );
     logger.info('User added to the workspace successfully');
-    return res.status(201).json({ message: 'User added to the workspace successfully!' });
+    return res.status(201).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error adding user to workspace: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
@@ -265,8 +274,16 @@ export const removeUserFromWorkspace = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User is not a member of this workspace!' });
     }
     await workspaceUserRepository.remove(workspaceUser);
+    const { user } = req as any;
+    const notificationService = new NotificationService();
+    await notificationService.sendNotification(
+      user.id,
+      workspaceUser.userId,
+      'Removed',
+      `You have been removed from the workspace "${workspace.name}"`,
+    );
     logger.info('User removed from the workspace successfully');
-    return res.status(200).json({ message: 'User removed from the workspace successfully!' });
+    return res.status(200).json({ message: 'success' });
   } catch (error: any) {
     logger.error(`Error removing user from workspace: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
