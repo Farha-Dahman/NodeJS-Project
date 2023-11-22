@@ -36,6 +36,9 @@ Before you get started, ensure you have the following prerequisites installed on
 5. open `http://localhost:8000/`
 6. use curl, postman or other tools to send http requests to test your typeorm-based API
    
+## API Documentation
+
+The API documentation is available using Swagger. You can access it locally at [http://localhost:8000/api-docs/](http://localhost:8000/api-docs/).
 
 ## How to use CLI?
 

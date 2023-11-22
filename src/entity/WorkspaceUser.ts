@@ -1,11 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from './User';
 import { Workspace } from './Workspace';
 
 @Entity({ name: 'workspace_user' })
 export class WorkspaceUser {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  userId: number;
+
+  @PrimaryColumn()
+  workspaceId: number;
 
   @Column({ type: 'boolean', default: false })
   isAdmin: boolean;

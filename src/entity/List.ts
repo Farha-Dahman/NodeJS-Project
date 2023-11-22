@@ -19,9 +19,12 @@ export class List {
   @Column('int')
   position: number;
 
+  @Column({ type: 'boolean', default: false })
+  isArchived: boolean;
+
   @ManyToOne(() => Board, (board) => board.lists)
   board: Board;
 
-  @OneToMany(() => Card, (card) => card.list)
+  @OneToMany(() => Card, (card) => card.list, { cascade: true, onDelete: 'CASCADE' })
   cards: Card[];
 }

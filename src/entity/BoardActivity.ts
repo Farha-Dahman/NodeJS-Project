@@ -14,7 +14,7 @@ export class BoardActivity {
   id: number;
 
   @Column({ type: 'text' })
-  description: string;
+  action: string;
 
   @CreateDateColumn()
   timestamp: Date;

@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { Card } from './Card';
+import { AttachmentResponse } from './types';
 
 @Entity({ name: 'card_attachment' })
 export class CardAttachment {
@@ -18,8 +19,8 @@ export class CardAttachment {
   @CreateDateColumn()
   uploadedDate: Date;
 
-  @Column()
-  location: string;
+  @Column({ type: 'json', nullable: true })
+  location: AttachmentResponse;
 
   @ManyToOne(() => Card, (card) => card.cardAttachments)
   card: Card;
