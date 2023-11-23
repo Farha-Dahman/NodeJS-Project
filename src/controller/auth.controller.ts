@@ -60,11 +60,7 @@ export const login = async (req: Request, res: Response) => {
       logger.info('Invalid email or password');
       return res.status(404).json({ message: 'Invalid email or password' });
     }
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.LOGIN_SIGNATURE!,
-      //{ expiresIn: '10m' }
-    );
+    const token = jwt.sign({ id: user.id }, process.env.LOGIN_SIGNATURE!, { expiresIn: '10m' });
     const refreshToken = jwt.sign({ id: user.id }, process.env.LOGIN_SIGNATURE!, {
       expiresIn: 60 * 60 * 24 * 7,
     });
@@ -113,7 +109,7 @@ export const sendCode = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    user.sendCode = code;
+    user.codeSent = code;
     await userRepository.save(user);
 
     const html = `
@@ -130,7 +126,7 @@ export const sendCode = async (req: Request, res: Response) => {
   `;
     sendEmail(email, 'Reset Your Password', html);
     logger.info('The code send successfully');
-    return res.status(200).json({ message: 'success', Code: user.sendCode });
+    return res.status(200).json({ message: 'success', Code: user.codeSent });
   } catch (error: any) {
     logger.error('Error in sendCode:', error);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
@@ -148,12 +144,12 @@ export const forgotPassword = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Not registered account!' });
     }
 
-    if (user.sendCode !== code) {
+    if (user.codeSent !== code) {
       logger.warn('Invalid code');
       return res.status(400).json({ message: 'Invalid code!' });
     }
     user.password = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUND ?? '10'));
-    user.sendCode = null;
+    user.codeSent = null;
     await userRepository.save(user);
     logger.info('Password reset successfully for user:', user.id);
     return res.status(200).json({ message: 'success' });

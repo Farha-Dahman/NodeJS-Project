@@ -43,7 +43,7 @@ export class User {
   jobTitle: string;
 
   @Column({ default: null, type: 'varchar', nullable: true })
-  sendCode: string | null;
+  codeSent: string | null;
 
   @Column({ type: 'timestamptz', default: new Date() })
   createdAt: Date;
