@@ -1,10 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import sendConfirmationEmail from '../services/sendEmail';
+import * as jwt from 'jsonwebtoken';
+import sendEmail from '../services/sendEmail';
 import logger from '../../logger';
+import * as crypto from 'crypto';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -23,7 +24,7 @@ export const signup = async (req: Request, res: Response) => {
     });
     const link = `${process.env.BASE_URL}/auth/confirmEmail/${token}`;
     const html = `Click here to confirm your email <a href='${link}'>verify email</a>`;
-    sendConfirmationEmail(email, 'Confirm Your Email', html);
+    sendEmail(email, 'Confirm Your Email', html);
 
     const newUser = userRepository.create({
       fullName,
@@ -59,7 +60,11 @@ export const login = async (req: Request, res: Response) => {
       logger.info('Invalid email or password');
       return res.status(404).json({ message: 'Invalid email or password' });
     }
-    const token = jwt.sign({ id: user.id }, process.env.LOGIN_SIGNATURE!, { expiresIn: '10m' });
+    const token = jwt.sign(
+      { id: user.id },
+      process.env.LOGIN_SIGNATURE!,
+      //{ expiresIn: '10m' }
+    );
     const refreshToken = jwt.sign({ id: user.id }, process.env.LOGIN_SIGNATURE!, {
       expiresIn: 60 * 60 * 24 * 7,
     });
@@ -93,5 +98,67 @@ export const confirmEmail = async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error(`Error in confirmEmail: ${error}`);
     return res.status(401).json({ message: 'Invalid token', error: error.message });
+  }
+};
+
+export const sendCode = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const userRepository = getRepository(User);
+    const code = crypto.randomBytes(3).toString('hex').toUpperCase();
+    const user = await userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      logger.warn('User not found');
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.sendCode = code;
+    await userRepository.save(user);
+
+    const html = `
+    <html>
+        <div>
+          <h2>Reset Your Password</h2>
+          <p>Hello,</p>
+          <p>We received a request to reset your password for your Trello-Like App account.</p>
+          <h3>Your verification code is: <strong>${code}</strong></h3>
+          <p>Thank you,</p>
+          <p>The Trello-Like App Team</p>
+        </div>
+    </html>
+  `;
+    sendEmail(email, 'Reset Your Password', html);
+    logger.info('The code send successfully');
+    return res.status(200).json({ message: 'success', Code: user.sendCode });
+  } catch (error: any) {
+    logger.error('Error in sendCode:', error);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email, password, code } = req.body;
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      logger.warn('User not found');
+      return res.status(404).json({ message: 'Not registered account!' });
+    }
+
+    if (user.sendCode !== code) {
+      logger.warn('Invalid code');
+      return res.status(400).json({ message: 'Invalid code!' });
+    }
+    user.password = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUND ?? '10'));
+    user.sendCode = null;
+    await userRepository.save(user);
+    logger.info('Password reset successfully for user:', user.id);
+    return res.status(200).json({ message: 'success' });
+  } catch (error: any) {
+    logger.error('Error in forgetPassword:', error);
+    return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };

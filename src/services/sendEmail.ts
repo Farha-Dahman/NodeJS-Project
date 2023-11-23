@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import logger from '../../logger';
 
-const sendConfirmationEmail = async (to: string, subject: string, html: string) => {
+const sendEmail = async (to: string, subject: string, html: string) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -10,7 +10,7 @@ const sendConfirmationEmail = async (to: string, subject: string, html: string) 
     },
   });
   const mailOptions = {
-    from: `Trello <${process.env.SEND_EMAIL}>`,
+    from: `Trello-Like App <${process.env.SEND_EMAIL}>`,
     to,
     subject,
     html,
@@ -24,4 +24,4 @@ const sendConfirmationEmail = async (to: string, subject: string, html: string) 
   }
 };
 
-export default sendConfirmationEmail;
+export default sendEmail;
