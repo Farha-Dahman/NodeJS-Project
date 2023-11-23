@@ -42,6 +42,9 @@ export class User {
   @Column({ default: 'Unknown', type: 'varchar', length: 100, nullable: true })
   jobTitle: string;
 
+  @Column({ default: null, type: 'varchar', nullable: true })
+  codeSent: string | null;
+
   @Column({ type: 'timestamptz', default: new Date() })
   createdAt: Date;
 

@@ -58,8 +58,7 @@ const authRouter = express.Router();
  *   post:
  *     summary: User login
  *     description: Authenticate a user and return access and refresh tokens.
- *     tags:
- *       - Authentication
+ *     tags: [Authentication]
  *     requestBody:
  *       description: User credentials
  *       required: true
@@ -93,8 +92,7 @@ const authRouter = express.Router();
  *   put:
  *     summary: Confirm user email
  *     description: Confirm the user's email using the provided confirmation token.
- *     tags:
- *       - Authentication
+ *     tags: [Authentication]
  *     parameters:
  *       - in: path
  *         name: token
@@ -109,6 +107,111 @@ const authRouter = express.Router();
  *         description: Invalid token.
  *       '404':
  *         description: Email already verified.
+ */
+/**
+ * @swagger
+ * /auth/send-code:
+ *   patch:
+ *     summary: Send verification code for password reset
+ *     description: Sends a verification code to the user's email for password reset.
+ *     tags: [Authentication]
+ *     parameters:
+ *       - in: body
+ *         name: SendCodeRequest
+ *         description: Request body for sending a verification code
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               description: The email address of the user.
+ *     responses:
+ *       200:
+ *         description: Code sent successfully
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Success message.
+ *             Code:
+ *               type: string
+ *               description: The verification code sent to the user.
+ *       404:
+ *         description: User not found.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Error message.
+ *       500:
+ *         description: Internal Server Error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Error message.
+ */
+/**
+ * @swagger
+ * /auth/forgot-password:
+ *   patch:
+ *     summary: Reset user password
+ *     description: Resets the user's password using a verification code.
+ *     tags: [Authentication]
+ *     parameters:
+ *       - in: body
+ *         name: ForgotPasswordRequest
+ *         description: Request body for resetting user password
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               description: The email address of the user.
+ *             password:
+ *               type: string
+ *               description: The new password.
+ *             code:
+ *               type: string
+ *               description: The verification code sent to the user.
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Success message.
+ *       400:
+ *         description: Invalid code or missing information.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Error message.
+ *       404:
+ *         description: User not found.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Error message.
+ *       500:
+ *         description: Internal Server Error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               description: Error message.
  */
 const authRoutes = [
   {
@@ -127,6 +230,16 @@ const authRoutes = [
     method: 'put',
     path: '/confirmEmail/:token',
     handler: authController.confirmEmail,
+  },
+  {
+    method: 'patch',
+    path: '/send-code',
+    handler: authController.sendCode,
+  },
+  {
+    method: 'patch',
+    path: '/forgot-password',
+    handler: authController.forgotPassword,
   },
 ];
 
