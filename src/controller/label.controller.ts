@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { Like, getRepository } from 'typeorm';
-import { BoardLabel } from '../entity/BoardLabel';
-import { Board } from '../entity/Board';
 import logger from '../../logger';
+import { Board } from '../entity/Board';
+import { BoardLabel } from '../entity/BoardLabel';
 import { BoardUser } from '../entity/BoardUser';
 
 export const createLabel = async (req: Request, res: Response) => {
@@ -115,7 +115,7 @@ export const updateLabel = async (req: Request, res: Response) => {
     const label = await boardLabelRepository.findOne({
       where: { id: numericId },
     });
-    
+
     if (!label) {
       logger.info('Label not found');
       return res.status(404).json({ message: 'Label not found!' });

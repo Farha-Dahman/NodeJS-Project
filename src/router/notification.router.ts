@@ -1,7 +1,8 @@
 import express from 'express';
+import logger from '../../logger';
 import * as notificationController from '../controller/notification.controller';
 import { auth } from '../middleware/auth.middleware';
-import logger from '../../logger';
+
 const notificationRouter = express.Router();
 /**
  * @swagger
@@ -47,7 +48,7 @@ const notificationRouter = express.Router();
  *     summary: Toggle the read status of a notification.
  *     tags: [Notifications]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: notificationId
@@ -80,7 +81,7 @@ const notificationRoutes = [
     path: '/:notificationId',
     middleware: auth,
     handler: notificationController.changeNotificationReadStatus,
-  }
+  },
 ];
 
 notificationRoutes.forEach((route) => {

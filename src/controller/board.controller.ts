@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Workspace } from '../entity/Workspace';
-import { Board } from '../entity/Board';
-import { BoardUser } from '../entity/BoardUser';
 import logger from '../../logger';
-import { User } from '../entity/User';
+import { Board } from '../entity/Board';
 import { BoardActivity } from '../entity/BoardActivity';
+import { BoardUser } from '../entity/BoardUser';
+import { User } from '../entity/User';
+import { Workspace } from '../entity/Workspace';
 import { NotificationService } from '../services/notification';
+
 
 export const createBoard = async (req: Request, res: Response) => {
   const { name, WorkspaceName, isPublic } = req.body;
@@ -63,16 +64,16 @@ export const closeBoard = async (req: Request, res: Response) => {
     const board = await boardRepository.findOne({
       where: { id: numericId },
     });
-    
+
     if (!board) {
       logger.info('Board not found');
       return res.status(404).json({ message: 'Board not found!' });
     }
-    
+
     board.isClosed = true;
     await boardRepository.save(board);
     const { user } = req as any;
-    logActivity(user,`closed board #${numericId}`, board);
+    logActivity(user, `closed board #${numericId}`, board);
     logger.info('Board closed successfully');
     return res.status(200).json({ message: 'Board closed successfully' });
   } catch (error: any) {
@@ -89,16 +90,16 @@ export const reopenBoard = async (req: Request, res: Response) => {
     const board = await boardRepository.findOne({
       where: { id: numericId },
     });
-    
+
     if (!board) {
       logger.info('Board not found');
       return res.status(404).json({ message: 'Board not found!' });
     }
-    
+
     board.isClosed = false;
     await boardRepository.save(board);
     const { user } = req as any;
-    logActivity(user,`re-opened board #${numericId}`, board);
+    logActivity(user, `re-opened board #${numericId}`, board);
     logger.info('Board opened successfully');
     return res.status(200).json({ message: 'Board opened successfully' });
   } catch (error: any) {
@@ -255,7 +256,7 @@ export const updateBoard = async (req: Request, res: Response) => {
       board.isPublic = req.body.isPublic;
     }
     await boardRepository.save(board);
-    logActivity(user,`update board #${numericId}`, board);
+    logActivity(user, `update board #${numericId}`, board);
     logger.info('Board updated successfully');
     return res.status(200).json({ message: 'Board updated successfully', board });
   } catch (error: any) {
@@ -311,7 +312,7 @@ export const addMemberToBoard = async (req: Request, res: Response) => {
       'Added',
       `You have been added to the board "${board.name}"`,
     );
-    logActivity(user,`added new member ${user.fullName}to the board #${numericId}`, board);
+    logActivity(user, `added new member ${user.fullName}to the board #${numericId}`, board);
     logger.info('User added to the board successfully');
     return res.status(201).json({ message: 'success' });
   } catch (error: any) {
@@ -355,7 +356,7 @@ export const removeMemberFromBoard = async (req: Request, res: Response) => {
       'Removed',
       `You have been removed from the board "${board.name}"`,
     );
-    logActivity(user,`deleted #${userId} member from the board #${numericBoardId}`, board);
+    logActivity(user, `deleted #${userId} member from the board #${numericBoardId}`, board);
     logger.info('User removed from the board successfully');
     return res.status(200).json({ message: 'success' });
   } catch (error: any) {

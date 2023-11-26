@@ -1,46 +1,52 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToMany,
   CreateDateColumn,
+  Entity,
   ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BoardUser } from './BoardUser';
 import { BoardActivity } from './BoardActivity';
-import { List } from './List';
 import { BoardLabel } from './BoardLabel';
+import { BoardUser } from './BoardUser';
+import { List } from './List';
 import { Workspace } from './Workspace';
 
 @Entity({ name: 'board' })
 export class Board {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ type: 'varchar', length: 150 })
-  name: string;
+    name: string;
 
   @Column({ type: 'boolean', default: false })
-  isPublic: boolean;
+    isPublic: boolean;
 
   @Column({ type: 'boolean', default: false })
-  isClosed: boolean;
+    isClosed: boolean;
 
   @CreateDateColumn()
-  createdDate: Date;
+    createdDate: Date;
 
-  @OneToMany(() => BoardUser, (boardUsers) => boardUsers.board, { cascade: true, onDelete: 'CASCADE' })
-  boardUsers: BoardUser[];
+  @OneToMany(() => BoardUser, (boardUsers) => boardUsers.board, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+    boardUsers: BoardUser[];
 
-  @OneToMany(() => BoardActivity, (boardActivities) => boardActivities.board, { cascade: true, onDelete: 'CASCADE' })
-  boardActivities: BoardActivity[];
+  @OneToMany(() => BoardActivity, (boardActivities) => boardActivities.board, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+    boardActivities: BoardActivity[];
 
   @OneToMany(() => List, (list) => list.board, { cascade: true, onDelete: 'CASCADE' })
-  lists: List[];
+    lists: List[];
 
   @OneToMany(() => BoardLabel, (label) => label.board, { cascade: true, onDelete: 'CASCADE' })
-  labels: BoardLabel[];
+    labels: BoardLabel[];
 
   @ManyToOne(() => Workspace, (workspace) => workspace.boards)
-  workspace: Workspace;
+    workspace: Workspace;
 }

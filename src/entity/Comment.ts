@@ -1,21 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
-import { User } from './User';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from './Card';
+import { User } from './User';
 
 @Entity({ name: 'comment' })
 export class Comment {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ type: 'text' })
-  content: string;
+    content: string;
 
   @CreateDateColumn()
-  createdDate: Date;
+    createdDate: Date;
 
   @ManyToOne(() => User, (user) => user.comments)
-  user: User;
+    user: User;
 
   @ManyToOne(() => Card, (card) => card.comments)
-  card: Card;
+    card: Card;
 }

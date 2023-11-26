@@ -1,7 +1,8 @@
 import express from 'express';
+import logger from '../../logger';
 import * as workspaceController from '../controller/workspace.controller';
 import { auth } from '../middleware/auth.middleware';
-import logger from '../../logger';
+
 const workspaceRouter = express.Router();
 /**
  * @swagger
@@ -16,7 +17,7 @@ const workspaceRouter = express.Router();
  *     summary: Create a new workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     requestBody:
  *       required: true
  *       content:
@@ -63,7 +64,7 @@ const workspaceRouter = express.Router();
  *     summary: Get details of a specific workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -97,7 +98,7 @@ const workspaceRouter = express.Router();
  *     summary: Get all workspaces for the authenticated user.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     responses:
  *       '200':
  *         description: Successfully fetched user workspaces.
@@ -126,7 +127,7 @@ const workspaceRouter = express.Router();
  *     summary: Delete a workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -151,7 +152,7 @@ const workspaceRouter = express.Router();
  *     summary: Update a workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -192,7 +193,7 @@ const workspaceRouter = express.Router();
  *     summary: Add a user to a workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -227,7 +228,7 @@ const workspaceRouter = express.Router();
  *     summary: Remove a user from a workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -256,7 +257,7 @@ const workspaceRouter = express.Router();
  *     summary: Get all members of a workspace.
  *     tags: [Workspaces]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id

@@ -1,27 +1,21 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  CreateDateColumn,
-} from 'typeorm';
-import { User } from './User';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from './Card';
+import { User } from './User';
 
 @Entity({ name: 'card_activity' })
 export class CardActivity {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ type: 'text' })
-  action: string;
+    action: string;
 
   @CreateDateColumn()
-  timestamp: Date;
+    timestamp: Date;
 
   @ManyToOne(() => User, (user) => user.cardActivities)
-  user: User;
+    user: User;
 
   @ManyToOne(() => Card, (card) => card.cardActivities)
-  card: Card;
+    card: Card;
 }

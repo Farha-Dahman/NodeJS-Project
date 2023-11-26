@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Workspace } from '../entity/Workspace';
-import { WorkspaceUser } from '../entity/WorkspaceUser';
 import logger from '../../logger';
 import { User } from '../entity/User';
+import { Workspace } from '../entity/Workspace';
+import { WorkspaceUser } from '../entity/WorkspaceUser';
 import { NotificationService } from '../services/notification';
 
 export const createWorkspace = async (req: Request, res: Response) => {

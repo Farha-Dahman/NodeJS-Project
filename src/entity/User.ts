@@ -1,78 +1,78 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
   Index,
-  OneToMany,
-  ManyToMany,
   JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BoardActivity } from './BoardActivity';
+import { BoardUser } from './BoardUser';
+import { Card } from './Card';
+import { CardActivity } from './CardActivity';
 import { Comment } from './Comment';
 import { Notification } from './Notification';
-import { Card } from './Card';
-import { BoardUser } from './BoardUser';
 import { WorkspaceUser } from './WorkspaceUser';
-import { BoardActivity } from './BoardActivity';
-import { CardActivity } from './CardActivity';
 
 @Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Index({ unique: true })
   @Column({ type: 'varchar', length: 255, nullable: false })
-  email: string;
+    email: string;
 
   @Column({ type: 'varchar', length: 1000, nullable: false })
-  password: string;
+    password: string;
 
   @Column({ type: 'boolean', default: false })
-  isConfirmed: boolean;
-  
+    isConfirmed: boolean;
+
   @Column({ type: 'varchar', length: 255 })
-  fullName: string;
+    fullName: string;
 
   @Column({ type: 'varchar', length: 15000, nullable: true })
-  photo: string;
+    photo: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  phone: string;
+    phone: string;
 
   @Column({ default: 'Unknown', type: 'varchar', length: 100, nullable: true })
-  jobTitle: string;
+    jobTitle: string;
 
   @Column({ default: null, type: 'varchar', nullable: true })
-  codeSent: string | null;
+    codeSent: string | null;
 
   @Column({ type: 'timestamptz', default: new Date() })
-  createdAt: Date;
+    createdAt: Date;
 
   @Column({ type: 'timestamptz', default: new Date() })
-  updatedAt: Date;
-  
+    updatedAt: Date;
+
   @OneToMany(() => WorkspaceUser, (workspaceUsers) => workspaceUsers.user)
-  workspaceUsers: WorkspaceUser[];
+    workspaceUsers: WorkspaceUser[];
 
   @OneToMany(() => BoardUser, (boardUsers) => boardUsers.user)
-  boardUsers: BoardUser[];
+    boardUsers: BoardUser[];
 
   @OneToMany(() => BoardActivity, (boardActivities) => boardActivities.user)
-  boardActivities: BoardActivity[];
+    boardActivities: BoardActivity[];
 
   @OneToMany(() => CardActivity, (cardActivities) => cardActivities.user)
-  cardActivities: CardActivity[];
+    cardActivities: CardActivity[];
 
   @ManyToMany(() => Card, (card) => card.users)
   @JoinTable({ name: 'card_user' })
-  cards: Card[];
+    cards: Card[];
 
   @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+    comments: Comment[];
 
   @OneToMany(() => Notification, (notification) => notification.sender)
-  sentNotifications: Notification[];
+    sentNotifications: Notification[];
 
   @OneToMany(() => Notification, (notification) => notification.receiver)
-  receivedNotifications: Notification[];
+    receivedNotifications: Notification[];
 }

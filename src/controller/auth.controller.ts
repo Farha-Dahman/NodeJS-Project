@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import { User } from '../entity/User';
-import bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import sendEmail from '../services/sendEmail';
-import logger from '../../logger';
 import * as crypto from 'crypto';
+import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
+import { getRepository } from 'typeorm';
+import logger from '../../logger';
+import { User } from '../entity/User';
+import sendEmail from '../services/sendEmail';
 
 export const signup = async (req: Request, res: Response) => {
   try {
