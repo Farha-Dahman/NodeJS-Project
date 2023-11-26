@@ -1,30 +1,24 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './Board';
 import { Card } from './Card';
 
 @Entity({ name: 'list' })
 export class List {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ type: 'varchar', length: 100 })
-  title: string;
+    title: string;
 
   @Column('int')
-  position: number;
+    position: number;
 
   @Column({ type: 'boolean', default: false })
-  isArchived: boolean;
+    isArchived: boolean;
 
   @ManyToOne(() => Board, (board) => board.lists)
-  board: Board;
+    board: Board;
 
   @OneToMany(() => Card, (card) => card.list, { cascade: true, onDelete: 'CASCADE' })
-  cards: Card[];
+    cards: Card[];
 }

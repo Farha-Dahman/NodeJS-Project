@@ -1,8 +1,9 @@
 import express from 'express';
+import logger from '../../logger';
 import * as userController from '../controller/user.controller';
 import { auth } from '../middleware/auth.middleware';
-import logger from '../../logger';
 import fileUpload, { attachmentValidation } from '../middleware/multer';
+
 const userRouter = express.Router();
 /**
  * @swagger

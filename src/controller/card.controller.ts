@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Card } from '../entity/Card';
-import { List } from '../entity/List';
 import logger from '../../logger';
 import { BoardUser } from '../entity/BoardUser';
-import { User } from '../entity/User';
+import { Card } from '../entity/Card';
 import { CardActivity } from '../entity/CardActivity';
 import { Comment } from '../entity/Comment';
+import { List } from '../entity/List';
+import { User } from '../entity/User';
 import { NotificationService } from '../services/notification';
 
 export const createCard = async (req: Request, res: Response) => {

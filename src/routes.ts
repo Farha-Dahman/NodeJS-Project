@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import authRouter from './router/auth.router';
-import userRouter from './router/user.router';
-import workspaceRouter from './router/workspace.router';
 import boardRouter from './router/board.router';
-import listRouter from './router/list.router';
 import cardRouter from './router/card.router';
 import labelRouter from './router/label.router';
+import listRouter from './router/list.router';
 import notificationRouter from './router/notification.router';
+import userRouter from './router/user.router';
+import workspaceRouter from './router/workspace.router';
 
 export const AppRoutes = [
   {

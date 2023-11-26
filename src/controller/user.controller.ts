@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import logger from '../../logger';
 import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
+import logger from '../../logger';
 import { User } from '../entity/User';
 import cloudinary from '../services/cloudinary';
 

@@ -1,9 +1,10 @@
 import express from 'express';
-import * as cardController from '../controller/card.controller';
-import * as attachmentController from '../controller/attachment.controller';
-import { auth } from '../middleware/auth.middleware';
 import logger from '../../logger';
+import * as attachmentController from '../controller/attachment.controller';
+import * as cardController from '../controller/card.controller';
+import { auth } from '../middleware/auth.middleware';
 import fileUpload, { attachmentValidation } from '../middleware/multer';
+
 const cardRouter = express.Router();
 /**
  * @swagger
@@ -18,7 +19,7 @@ const cardRouter = express.Router();
  *     summary: Create a new card in a list.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: listId
@@ -84,7 +85,7 @@ const cardRouter = express.Router();
  *     summary: Update a card in a board.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -156,7 +157,7 @@ const cardRouter = express.Router();
  *     summary: Archive a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -193,7 +194,7 @@ const cardRouter = express.Router();
  *     summary: Un-archive a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -278,7 +279,7 @@ const cardRouter = express.Router();
  *     summary: Delete a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -303,7 +304,7 @@ const cardRouter = express.Router();
  *     summary: Add a member to a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -370,7 +371,7 @@ const cardRouter = express.Router();
  *     summary: Get all members for a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -437,7 +438,7 @@ const cardRouter = express.Router();
  *     summary: Get activities for a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -473,7 +474,7 @@ const cardRouter = express.Router();
  *     summary: Add a comment to a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: cardId
@@ -521,7 +522,7 @@ const cardRouter = express.Router();
  *     summary: Delete a comment.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -544,7 +545,7 @@ const cardRouter = express.Router();
  *     summary: Edit a comment.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -586,7 +587,7 @@ const cardRouter = express.Router();
  *     summary: Get all comments for a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: cardId
@@ -624,7 +625,7 @@ const cardRouter = express.Router();
  *     summary: Upload an attachment to a card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: cardId
@@ -671,7 +672,7 @@ const cardRouter = express.Router();
  *     summary: Delete an attachment.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: attachmentId
@@ -694,7 +695,7 @@ const cardRouter = express.Router();
  *     summary: Update the name of an attachment.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: attachmentId
@@ -742,7 +743,7 @@ const cardRouter = express.Router();
  *     summary: Get all attachments for a specific card.
  *     tags: [Cards]
  *     security:
- *       - AuthToken: [] 
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: cardId

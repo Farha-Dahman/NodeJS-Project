@@ -14,7 +14,7 @@ const options: swaggerJSDoc.Options = {
           type: 'apiKey',
           name: 'Authorization',
           in: 'header',
-          description: "Use 'Bearer ' + the token obtained from the login endpoint.",
+          description: 'Use \'Bearer \' + the token obtained from the login endpoint.',
         },
       },
     },

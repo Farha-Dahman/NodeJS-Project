@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
-import { User } from '../entity/User';
 import logger from '../../logger';
+import { User } from '../entity/User';
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {

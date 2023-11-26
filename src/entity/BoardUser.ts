@@ -1,21 +1,21 @@
-import { Entity, PrimaryColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './User';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Board } from './Board';
+import { User } from './User';
 
 @Entity({ name: 'board_user' })
 export class BoardUser {
   @PrimaryColumn()
-  userId: number;
+    userId: number;
 
   @PrimaryColumn()
-  boardId: number;
-  
+    boardId: number;
+
   @Column({ type: 'boolean', default: false })
-  isAdmin: boolean;
+    isAdmin: boolean;
 
   @ManyToOne(() => User, (user) => user.boardUsers)
-  user: User;
+    user: User;
 
   @ManyToOne(() => Board, (board) => board.boardUsers)
-  board: Board;
+    board: Board;
 }

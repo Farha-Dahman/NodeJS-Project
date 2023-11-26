@@ -1,7 +1,8 @@
 import express from 'express';
+import logger from '../../logger';
 import * as boardController from '../controller/board.controller';
 import { auth } from '../middleware/auth.middleware';
-import logger from '../../logger';
+
 const boardRouter = express.Router();
 /**
  * @swagger
@@ -294,7 +295,7 @@ const boardRouter = express.Router();
  *     summary: Remove a member from the board.
  *     tags: [Boards]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -323,7 +324,7 @@ const boardRouter = express.Router();
  *     summary: Get all members of the board.
  *     tags: [Boards]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -346,7 +347,7 @@ const boardRouter = express.Router();
  *     summary: Get board activities.
  *     tags: [Boards]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id

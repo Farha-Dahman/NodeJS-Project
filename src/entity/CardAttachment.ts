@@ -1,27 +1,21 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  CreateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from './Card';
 import { AttachmentResponse } from './types';
 
 @Entity({ name: 'card_attachment' })
 export class CardAttachment {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ type: 'varchar', length: 500 })
-  name: string;
+    name: string;
 
   @CreateDateColumn()
-  uploadedDate: Date;
+    uploadedDate: Date;
 
   @Column({ type: 'json', nullable: true })
-  location: AttachmentResponse;
+    location: AttachmentResponse;
 
   @ManyToOne(() => Card, (card) => card.cardAttachments)
-  card: Card;
+    card: Card;
 }

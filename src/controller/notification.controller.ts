@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Notification } from '../entity/Notification';
 import logger from '../../logger';
+import { Notification } from '../entity/Notification';
 
 export const getNotifications = async (req: Request, res: Response) => {
   try {

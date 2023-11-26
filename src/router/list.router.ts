@@ -1,7 +1,8 @@
 import express from 'express';
+import logger from '../../logger';
 import * as listController from '../controller/list.controller';
 import { auth } from '../middleware/auth.middleware';
-import logger from '../../logger';
+
 const listRouter = express.Router();
 /**
  * @swagger
@@ -16,7 +17,7 @@ const listRouter = express.Router();
  *     summary: Create a new list in a board.
  *     tags: [Lists]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: boardId
@@ -66,7 +67,7 @@ const listRouter = express.Router();
  *     summary: Update a list.
  *     tags: [Lists]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -115,7 +116,7 @@ const listRouter = express.Router();
  *     summary: Archive a list.
  *     tags: [Lists]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -147,7 +148,7 @@ const listRouter = express.Router();
  *     summary: Un-archive a list.
  *     tags: [Lists]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -179,7 +180,7 @@ const listRouter = express.Router();
  *     summary: Get all non-archived lists for a board by ID.
  *     tags: [Lists]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: boardId
@@ -215,7 +216,7 @@ const listRouter = express.Router();
  *     summary: Delete a list.
  *     tags: [Lists]
  *     security:
- *       - AuthToken: []  
+ *       - AuthToken: []
  *     parameters:
  *       - in: path
  *         name: id

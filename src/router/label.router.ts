@@ -1,7 +1,8 @@
 import express from 'express';
+import logger from '../../logger';
 import * as labelController from '../controller/label.controller';
 import { auth } from '../middleware/auth.middleware';
-import logger from '../../logger';
+
 const labelRouter = express.Router();
 /**
  * @swagger

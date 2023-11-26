@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 import { ObjectSchema } from 'joi';
-import logger from "../../logger";
+import logger from '../../logger';
 
 export const validation = (schema: ObjectSchema<any>) => {
   return (req: Request, res: Response, next: NextFunction) => {

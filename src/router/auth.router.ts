@@ -1,8 +1,9 @@
 import express from 'express';
-import * as authController from '../controller/auth.controller';
-import { loginSchema, signupSchema } from '../schema/auth.schema';
-import { validation } from '../middleware/validation';
 import logger from '../../logger';
+import * as authController from '../controller/auth.controller';
+import { validation } from '../middleware/validation';
+import { loginSchema, signupSchema } from '../schema/auth.schema';
+
 const authRouter = express.Router();
 /**
  * @swagger
@@ -41,7 +42,7 @@ const authRouter = express.Router();
  *                - fullName
  *                - email
  *                - password
- *                - cPassword   
+ *                - cPassword
  *      responses:
  *        200:
  *          description: User registered successfully

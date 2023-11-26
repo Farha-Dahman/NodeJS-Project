@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { CardAttachment } from '../entity/CardAttachment';
-import cloudinary from '../services/cloudinary';
-import { AttachmentResponse } from '../entity/types';
 import logger from '../../logger';
 import { Card } from '../entity/Card';
+import { CardAttachment } from '../entity/CardAttachment';
+import { AttachmentResponse } from '../entity/types';
+import cloudinary from '../services/cloudinary';
 
 export const uploadAttachment = async (req: Request, res: Response) => {
   try {

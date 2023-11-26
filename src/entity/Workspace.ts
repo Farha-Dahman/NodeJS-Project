@@ -1,25 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Board } from './Board';
 import { User } from './User';
 import { WorkspaceUser } from './WorkspaceUser';
-import { Board } from './Board';
 
 @Entity({ name: 'workspace' })
 export class Workspace {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ type: 'varchar', length: 100 })
-  name: string;
+    name: string;
 
   @Column({ type: 'varchar', length: 50 })
-  type: string;
+    type: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string;
+    description: string;
 
   @OneToMany(() => User, (user) => user.workspaceUsers, { cascade: true, onDelete: 'CASCADE' })
-  workspaceUsers: WorkspaceUser[];
+    workspaceUsers: WorkspaceUser[];
 
   @OneToMany(() => Board, (board) => board.workspace)
-  boards: Board[];
+    boards: Board[];
 }
