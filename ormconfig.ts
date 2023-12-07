@@ -1,7 +1,7 @@
-import dataSourceConfig from './src/data-source';
+import { AppDataSource } from './src/data-source';
 
 module.exports = {
-  ...dataSourceConfig,
+  ...AppDataSource.options,
   synchronize: false,
   logging: false,
 };
