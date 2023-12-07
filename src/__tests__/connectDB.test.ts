@@ -1,33 +1,37 @@
-import { createConnection, getConnectionOptions } from 'typeorm';
-import { connectDB } from '../../DB/connection';
-
-jest.mock('typeorm');
+import './__mocks__/setupTests';
+import { DataSource, getConnectionOptions } from 'typeorm';
+import connectDB from '../db/connection';
+import { mockConnectionOptions } from './__mocks__/setupTests';
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
+class MockDataSource {
+  async connect() {
+    throw new Error('Database connection error');
+  }
+}
+
 describe('connect to the Database', () => {
-  it('should connect to the database successfully', async () => {
-    const mockConnectionOptions = {
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'test',
-      password: 'test',
-      database: 'test',
-    };
-    (getConnectionOptions as jest.Mock).mockResolvedValueOnce(mockConnectionOptions);
-    (createConnection as jest.Mock).mockResolvedValueOnce({ isConnected: true });
-    await expect(connectDB()).resolves.toEqual({ isConnected: true });
-    expect(getConnectionOptions).toHaveBeenCalledWith(process.env.NODE_ENV);
-    expect(createConnection).toHaveBeenCalledWith({ ...mockConnectionOptions, name: 'default' });
+  it('should successfully connect to the database', async () => {
+    jest.spyOn(require('typeorm'), 'getConnectionOptions').mockResolvedValue(mockConnectionOptions);
+    const connectMock = jest.fn();
+    jest.spyOn(require('typeorm'), 'DataSource').mockImplementation(() => ({
+      connect: connectMock,
+    }));
+
+    const dataSource = await connectDB();
+    expect(dataSource).toBeDefined();
+    expect(connectMock).toHaveBeenCalledTimes(1);
   });
 
   it('should handle connection errors and log an error', async () => {
-    const mockError = new Error('Database connection error');
-    (createConnection as jest.Mock).mockRejectedValueOnce(mockError);
-    await expect(connectDB()).rejects.toThrow(mockError);
-    expect(createConnection).toHaveBeenCalled();
+    (getConnectionOptions as jest.Mock).mockResolvedValueOnce(mockConnectionOptions);
+    (DataSource as jest.Mock).mockImplementationOnce(() => new MockDataSource());
+
+    await expect(connectDB()).rejects.toThrow('Database connection error');
+    expect(DataSource).toHaveBeenCalledWith(expect.objectContaining({ name: 'default' }));
+    expect(DataSource).toHaveBeenCalledTimes(1);
   });
 });
