@@ -14,6 +14,7 @@ import { CardActivity } from './CardActivity';
 import { Comment } from './Comment';
 import { Notification } from './Notification';
 import { WorkspaceUser } from './WorkspaceUser';
+import { Photo } from '../models/types';
 
 @Entity({ name: 'user' })
 export class User {
@@ -33,8 +34,8 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
     fullName: string;
 
-  @Column({ type: 'varchar', length: 15000, nullable: true })
-    photo: string;
+  @Column({ type: 'json', nullable: true })
+    photo: Photo | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
     phone: string;
