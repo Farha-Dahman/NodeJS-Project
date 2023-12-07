@@ -1,7 +1,16 @@
 import { mock } from 'jest-mock-extended';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 export const repoMock = mock<Repository<any>>();
+export const dataSourceMock = mock<DataSource>();
+export const mockConnectionOptions = {
+  type: 'postgres',
+  host: 'localhost',
+  port: 5432,
+  username: 'test',
+  password: 'test',
+  database: 'test',
+};
 
 jest.mock('typeorm', () => {
   return {
@@ -16,8 +25,8 @@ jest.mock('typeorm', () => {
     ManyToMany: () => {},
     JoinTable: () => {},
     Index: () => {},
-    DataSource: () => {},
+    DataSource: jest.fn(() => dataSourceMock),
     createConnection: () => {},
-    getConnectionOptions: () => {},
+    getConnectionOptions: jest.fn().mockResolvedValue(mockConnectionOptions),
   };
 });
