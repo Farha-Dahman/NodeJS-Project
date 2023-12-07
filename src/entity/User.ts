@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Photo } from '../models/types';
 import { BoardActivity } from './BoardActivity';
 import { BoardUser } from './BoardUser';
 import { Card } from './Card';
@@ -14,7 +15,6 @@ import { CardActivity } from './CardActivity';
 import { Comment } from './Comment';
 import { Notification } from './Notification';
 import { WorkspaceUser } from './WorkspaceUser';
-import { Photo } from '../models/types';
 
 @Entity({ name: 'user' })
 export class User {

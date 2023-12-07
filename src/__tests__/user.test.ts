@@ -10,9 +10,7 @@ import {
 import { User } from '../entity/User';
 import { AuthenticatedRequest } from '../models/types';
 import cloudinary from '../services/cloudinary';
-import { mockUserData } from './__mocks__/mocks';
 import { repoMock } from './__mocks__/setupTests';
-import bcrypt from 'bcrypt';
 
 let mockResponse: Partial<Response>;
 let mockRequest: Partial<AuthenticatedRequest>;

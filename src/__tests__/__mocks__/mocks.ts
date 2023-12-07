@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import * as emailSenderModule from '../../services/sendEmail';
 import { User } from '../../entity/User';
+import * as emailSenderModule from '../../services/sendEmail';
 
 jest.mock('../../services/sendEmail');
 export const sendEmailSpy = jest.spyOn(emailSenderModule, 'default');
