@@ -44,7 +44,7 @@ export const createCard = async (req: Request, res: Response) => {
     logger.info('Card created successfully');
     return res.status(201).json({ message: 'success', card: newCard });
   } catch (error: any) {
-    console.error('Error when creating card:', error);
+    logger.error('Error when creating card:', error);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };
@@ -96,12 +96,12 @@ export const updateCard = async (req: Request, res: Response) => {
     logActivity(user, `update card #${numericId}`, card);
     return res.status(200).json({ message: 'success', card });
   } catch (error: any) {
-    console.error('Error updating card:', error);
+    logger.error('Error updating card:', error);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };
 
-const archiveState = async (req: Request, res: Response, isArchived: boolean) => {
+export const archiveState = async (req: Request, res: Response, isArchived: boolean) => {
   const { id } = req.params;
   const cardRepository = getRepository(Card);
   try {
