@@ -28,5 +28,6 @@ jest.mock('typeorm', () => {
     DataSource: jest.fn(() => dataSourceMock),
     createConnection: () => {},
     getConnectionOptions: jest.fn().mockResolvedValue(mockConnectionOptions),
+    Like: (value: string) => ({ $like: value }),
   };
 });
