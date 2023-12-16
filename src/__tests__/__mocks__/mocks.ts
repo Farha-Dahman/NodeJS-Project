@@ -37,6 +37,7 @@ jest.mock('cloudinary', () => ({
   v2: {
     config: jest.fn(),
     uploader: {
+      destroy: jest.fn(),
       upload: jest.fn(),
     },
   },
