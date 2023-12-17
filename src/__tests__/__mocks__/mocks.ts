@@ -17,8 +17,6 @@ export const mockUserData: Partial<User> = {
   photo: { public_id: 'mockPublicId', secure_url: 'mockSecureUrl' },
   phone: '1234567890',
   jobTitle: 'Software Developer',
-  createdAt: new Date(),
-  updatedAt: new Date(),
 };
 
 jest.mock('jsonwebtoken', () => ({
