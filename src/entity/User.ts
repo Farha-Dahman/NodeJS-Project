@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Photo } from '../models/types';
 import { BoardActivity } from './BoardActivity';
 import { BoardUser } from './BoardUser';
 import { Card } from './Card';
@@ -33,8 +34,8 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
     fullName: string;
 
-  @Column({ type: 'varchar', length: 15000, nullable: true })
-    photo: string;
+  @Column({ type: 'json', nullable: true })
+    photo: Photo | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
     phone: string;

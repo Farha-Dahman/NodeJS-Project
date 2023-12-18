@@ -83,14 +83,19 @@ export const confirmEmail = async (req: Request, res: Response) => {
     });
 
     if (!user) {
+      logger.info('Email not found or already verified');
+      return res.status(404).json({ message: 'Your Email is not found or already verified!' });
+    }
+
+    if (user.isConfirmed) {
       logger.info('Email already verified');
       return res.status(404).json({ message: 'Your Email already is verified!' });
-    } else {
-      user.isConfirmed = true;
-      await userRepository.save(user);
-      logger.info('Email confirmed successfully');
-      return res.status(200).json({ message: 'Your email is confirmed successfully!' });
     }
+
+    user.isConfirmed = true;
+    await userRepository.save(user);
+    logger.info('Email confirmed successfully');
+    return res.status(200).json({ message: 'Your email is confirmed successfully!' });
   } catch (error: any) {
     logger.error(`Error in confirmEmail: ${error}`);
     return res.status(401).json({ message: 'Invalid token', error: error.message });

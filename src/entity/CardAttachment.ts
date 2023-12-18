@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AttachmentResponse } from '../models/types';
 import { Card } from './Card';
-import { AttachmentResponse } from './types';
 
 @Entity({ name: 'card_attachment' })
 export class CardAttachment {

@@ -1,7 +1,7 @@
-import { dbConnectionOptions } from './src/data-source';
+import { AppDataSource } from './src/data-source';
 
 module.exports = {
-  ...dbConnectionOptions,
+  ...AppDataSource.options,
   synchronize: false,
   logging: false,
 };

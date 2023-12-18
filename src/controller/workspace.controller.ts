@@ -145,6 +145,10 @@ export const updateWorkspace = async (req: Request, res: Response) => {
   try {
     const numericId = parseInt(id, 10);
     const { user } = req as any;
+    if (!user) {
+      logger.warn('User not found!');
+      return res.status(401).json({ message: 'User not found!' });
+    }
     const workspace = await workspaceRepository.findOne({
       where: { id: numericId },
     });

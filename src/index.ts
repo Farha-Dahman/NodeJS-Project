@@ -2,9 +2,9 @@ import 'reflect-metadata';
 import { config } from 'dotenv';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
-import { connectDB } from '../DB/connection';
 import swaggerSpec from '../swagger';
 import logger from './../logger';
+import connectDB from './db/connection';
 import { AppRoutes } from './routes';
 
 config();

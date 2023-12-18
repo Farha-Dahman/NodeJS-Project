@@ -117,7 +117,7 @@ export const deleteList = async (req: Request, res: Response) => {
   }
 };
 
-const archiveState = async (req: Request, res: Response, isArchived: boolean) => {
+export const archiveState = async (req: Request, res: Response, isArchived: boolean) => {
   const { id } = req.params;
   const listRepository = getRepository(List);
   try {

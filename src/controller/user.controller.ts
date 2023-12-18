@@ -6,8 +6,12 @@ import { User } from '../entity/User';
 import cloudinary from '../services/cloudinary';
 
 export const profile = async (req: Request, res: Response) => {
-  const { user } = req as any;
-  return res.json(user);
+  const user = (req as any).user;
+  if (user) {
+    return res.status(200).json({ message: 'success', user });
+  } else {
+    return res.status(404).json({ error: 'User data not found' });
+  }
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
@@ -77,26 +81,35 @@ export const changePassword = async (req: Request, res: Response) => {
     const { currentPassword, newPassword, confirmNewPassword } = req.body;
     const userRepository = getRepository(User);
     const { user } = req as any;
+    
     if (!user) {
       logger.info('User not found');
       return res.status(404).json({ message: 'User not found!' });
     }
-    const userPassword = await userRepository.findOne({
-      where: { email: user.email },
-      select: ['password'],
-    });
 
     if (newPassword !== confirmNewPassword) {
       logger.info('New password and confirm password do not match');
       return res.status(400).json({ message: 'New password and confirm password do not match!' });
     }
 
-    const isPasswordValid = await bcrypt.compare(currentPassword, userPassword!.password);
-    if (!isPasswordValid) {
-      logger.info('Current password is incorrect');
-      return res.status(401).json({ message: 'Current password is incorrect!' });
+    const userPassword = await userRepository.findOne({
+      where: { email: user.email },
+      select: ['password'],
+    });
+
+    if (!userPassword) {
+      logger.info('User not found in the database');
+      return res.status(404).json({ message: 'User not found!' });
     }
 
+    const isPasswordValid = await bcrypt.compare(currentPassword, userPassword.password);
+    console.log('isPasswordValid:', isPasswordValid);
+
+    if (!isPasswordValid) {
+      logger.info('Current password is incorrect');
+      console.log('Setting status 401');
+      return res.status(401).json({ message: 'Current password is incorrect!' });
+    }
     const hashedNewPassword = bcrypt.hashSync(
       newPassword,
       parseInt(process.env.SALT_ROUND || '10'),
