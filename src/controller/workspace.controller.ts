@@ -47,6 +47,15 @@ export const getSpecificWorkspace = async (req: Request, res: Response) => {
   const workspaceUserRepository = getRepository(WorkspaceUser);
   try {
     const numericId = parseInt(id, 10);
+    const workspace = await workspaceRepository.findOne({
+      where: { id: numericId },
+    });
+
+    if (!workspace) {
+      logger.info('Workspace not found');
+      return res.status(404).json({ message: 'Workspace not found!' });
+    }
+
     const { user } = req as any;
     const isMember = await workspaceUserRepository.findOne({
       where: {
@@ -54,21 +63,15 @@ export const getSpecificWorkspace = async (req: Request, res: Response) => {
         workspaceId: numericId,
       },
     });
+
     if (!isMember) {
       logger.info('Access denied! User is not a member of this workspace');
-      return res.status(403).json({ message: 'Access denied! You not a member of this workspace' });
-    }
-    const workspace = await workspaceRepository.findOne({
-      where: { id: numericId },
-    });
-    if (!workspace) {
-      logger.info('Workspace not found');
-      return res.status(404).json({ message: 'Workspace not found!' });
+      return res.status(403).json({ message: 'Access denied! You are not a member of this workspace' });
     }
     logger.info('Show a specific workspace successfully');
     return res.status(200).json({ message: 'success', workspace });
   } catch (error: any) {
-    logger.error(`Error when get a specific Workspace: ${error}`);
+    logger.error(`Error when getting a specific Workspace: ${error}`);
     return res.status(500).json({ message: error.message || 'Internal Server Error' });
   }
 };

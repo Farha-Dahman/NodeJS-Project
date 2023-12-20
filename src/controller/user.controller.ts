@@ -103,11 +103,9 @@ export const changePassword = async (req: Request, res: Response) => {
     }
 
     const isPasswordValid = await bcrypt.compare(currentPassword, userPassword.password);
-    console.log('isPasswordValid:', isPasswordValid);
 
     if (!isPasswordValid) {
       logger.info('Current password is incorrect');
-      console.log('Setting status 401');
       return res.status(401).json({ message: 'Current password is incorrect!' });
     }
     const hashedNewPassword = bcrypt.hashSync(
