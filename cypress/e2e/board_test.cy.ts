@@ -1,13 +1,10 @@
 import { authenticate, authenticateNewUser } from '../utilities/authUtils';
 
 describe('Board APIs', () => {
-  let newUser, existingUser;
+  let existingUser;
   beforeEach(function () {
     cy.fixture('existingUserInfo').then((user) => {
       existingUser = user;
-    });
-    cy.fixture('newUserInfo').then((user) => {
-      newUser = user;
     });
     authenticate().then((token) => {
       Cypress.env('authToken', token);

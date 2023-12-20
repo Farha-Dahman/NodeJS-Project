@@ -13,9 +13,9 @@ export class BoardUser {
   @Column({ type: 'boolean', default: false })
     isAdmin: boolean;
 
-  @ManyToOne(() => User, (user) => user.boardUsers)
+  @ManyToOne(() => User, (user) => user.boardUsers, { cascade: true, onDelete: 'CASCADE' })
     user: User;
 
-  @ManyToOne(() => Board, (board) => board.boardUsers)
+  @ManyToOne(() => Board, (board) => board.boardUsers, { onDelete: 'CASCADE' })
     board: Board;
 }
