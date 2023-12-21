@@ -13,9 +13,9 @@ export class CardActivity {
   @CreateDateColumn()
     timestamp: Date;
 
-  @ManyToOne(() => User, (user) => user.cardActivities)
+  @ManyToOne(() => User, (user) => user.cardActivities, { onDelete: 'CASCADE' })
     user: User;
 
-  @ManyToOne(() => Card, (card) => card.cardActivities)
+  @ManyToOne(() => Card, (card) => card.cardActivities, { onDelete: 'CASCADE' })
     card: Card;
 }

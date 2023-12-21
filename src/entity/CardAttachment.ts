@@ -16,6 +16,6 @@ export class CardAttachment {
   @Column({ type: 'json', nullable: true })
     location: AttachmentResponse;
 
-  @ManyToOne(() => Card, (card) => card.cardAttachments)
+  @ManyToOne(() => Card, (card) => card.cardAttachments, { onDelete: 'CASCADE' })
     card: Card;
 }
