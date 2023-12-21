@@ -105,6 +105,13 @@ export const getAllAttachments = async (req: Request, res: Response) => {
     const { cardId } = req.params;
     const numericCardId = parseInt(cardId, 10);
     const cardAttachmentRepository = getRepository(CardAttachment);
+    const cardRepository = getRepository(Card);
+    const card = await cardRepository.findOne({ where: { id: numericCardId } });
+
+    if (!card) {
+      logger.info('Card not found');
+      return res.status(404).json({ message: 'Card not found!' });
+    }
 
     const attachments = await cardAttachmentRepository.find({
       where: { card: { id: numericCardId } },
