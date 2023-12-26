@@ -81,6 +81,16 @@ export const getAllLabels = async (req: Request, res: Response) => {
     const { boardId } = req.params;
     const numericBoardId = parseInt(boardId, 10);
     const boardLabelRepository = getRepository(BoardLabel);
+    const boardRepository = getRepository(Board);
+    const board = await boardRepository.findOne({
+      where: { id: numericBoardId },
+    });
+
+    if (!board) {
+      logger.info('Board not found');
+      return res.status(404).json({ message: 'Board not found!' });
+    }
+    
     const labels = await boardLabelRepository.find({
       where: { board: { id: numericBoardId } },
     });

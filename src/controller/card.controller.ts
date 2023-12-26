@@ -348,6 +348,12 @@ export const getActivities = async (req: Request, res: Response) => {
     const numericId = parseInt(id, 10);
     const activityLogRepository = getRepository(CardActivity);
 
+    const cardExists = await getRepository(Card).findOne({ where: { id: numericId } });
+    if (!cardExists) {
+      logger.info('Card not found');
+      return res.status(404).json({ message: 'Card not found!' });
+    }
+
     const activities = await activityLogRepository.find({
       where: { card: { id: numericId } },
     });
@@ -437,6 +443,13 @@ export const getAllComments = async (req: Request, res: Response) => {
   const commentRepository = getRepository(Comment);
   try {
     const numericCardId = parseInt(cardId, 10);
+
+    const card = await getRepository(Card).findOne({ where: { id: numericCardId } });
+    if (!card) {
+      logger.info('Card not found');
+      return res.status(404).json({ message: 'Card not found!' });
+    }
+    
     const comments = await commentRepository.find({ where: { card: { id: numericCardId } } });
 
     logger.info('fetching comments successfully');

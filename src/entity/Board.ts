@@ -29,10 +29,7 @@ export class Board {
   @CreateDateColumn()
     createdDate: Date;
 
-  @OneToMany(() => BoardUser, (boardUsers) => boardUsers.board, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => BoardUser, (boardUsers) => boardUsers.board, { cascade: true, onDelete: 'CASCADE' })
     boardUsers: BoardUser[];
 
   @OneToMany(() => BoardActivity, (boardActivities) => boardActivities.board, {
