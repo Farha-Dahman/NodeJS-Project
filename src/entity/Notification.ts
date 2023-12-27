@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
 
 @Entity({ name: 'notification' })
@@ -12,6 +12,7 @@ export class Notification {
   @Column()
     action: string;
 
+  @Index('index_isRead')
   @Column({ type: 'boolean', default: false })
     isRead: boolean;
 

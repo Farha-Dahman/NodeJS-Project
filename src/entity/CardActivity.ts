@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from './Card';
 import { User } from './User';
 
@@ -7,6 +7,7 @@ export class CardActivity {
   @PrimaryGeneratedColumn()
     id: number;
 
+  @Index('index_card_action')
   @Column({ type: 'text' })
     action: string;
 

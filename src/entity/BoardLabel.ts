@@ -1,8 +1,10 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Index } from 'typeorm';
 import { Board } from './Board';
 import { Card } from './Card';
 
 @Entity({ name: 'board_label' })
+@Index('title_index', ['title'])
+@Index('color_index', ['color'])
 export class BoardLabel {
   @PrimaryGeneratedColumn()
     id: number;

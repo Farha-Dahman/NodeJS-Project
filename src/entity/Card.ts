@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -16,10 +17,12 @@ import { List } from './List';
 import { User } from './User';
 
 @Entity({ name: 'card' })
+@Index('isArchived_card_index', ['isArchived'])
 export class Card {
   @PrimaryGeneratedColumn()
     id: number;
 
+  @Index('index_title')
   @Column({ type: 'varchar', length: 100 })
     title: string;
 

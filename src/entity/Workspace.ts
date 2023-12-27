@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './Board';
 import { User } from './User';
 import { WorkspaceUser } from './WorkspaceUser';
@@ -8,6 +8,7 @@ export class Workspace {
   @PrimaryGeneratedColumn()
     id: number;
 
+  @Index('index_name')  
   @Column({ type: 'varchar', length: 100 })
     name: string;
 

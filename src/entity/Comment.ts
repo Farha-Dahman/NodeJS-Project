@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from './Card';
 import { User } from './User';
 
@@ -10,6 +10,7 @@ export class Comment {
   @Column({ type: 'text' })
     content: string;
 
+  @Index('index_created_date')
   @CreateDateColumn()
     createdDate: Date;
 

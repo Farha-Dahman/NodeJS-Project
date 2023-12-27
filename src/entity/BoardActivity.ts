@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './Board';
 import { User } from './User';
 
@@ -7,6 +7,7 @@ export class BoardActivity {
   @PrimaryGeneratedColumn()
     id: number;
 
+  @Index('index_board_action')
   @Column({ type: 'text' })
     action: string;
 

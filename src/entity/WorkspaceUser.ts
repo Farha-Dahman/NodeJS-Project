@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from './User';
 import { Workspace } from './Workspace';
 
 @Entity({ name: 'workspace_user' })
+@Index('index_isAdmin', ['isAdmin'])
 export class WorkspaceUser {
   @PrimaryColumn()
     userId: number;
