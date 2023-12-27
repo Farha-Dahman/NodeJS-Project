@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { AttachmentResponse } from '../models/types';
+import { AttachmentResponse } from '../types/types';
 import { Card } from './Card';
 
 @Entity({ name: 'card_attachment' })

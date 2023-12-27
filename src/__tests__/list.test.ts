@@ -10,7 +10,7 @@ import {
 } from '../controller/list.controller';
 import { Board } from '../entity/Board';
 import { List } from '../entity/List';
-import { AuthenticatedRequest } from '../models/types';
+import { AuthenticatedRequest } from '../types/types';
 import { repoMock } from './__mocks__/setupTests';
 
 let mockRequest: Partial<AuthenticatedRequest>;

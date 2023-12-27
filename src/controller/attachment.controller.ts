@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import logger from '../../logger';
 import { Card } from '../entity/Card';
 import { CardAttachment } from '../entity/CardAttachment';
-import { AttachmentResponse } from '../models/types';
+import { AttachmentResponse } from '../types/types';
 import cloudinary from '../services/cloudinary';
 
 export const uploadAttachment = async (req: Request, res: Response) => {

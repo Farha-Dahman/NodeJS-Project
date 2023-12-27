@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Photo } from '../models/types';
+import { Photo } from '../types/types';
 import { BoardActivity } from './BoardActivity';
 import { BoardUser } from './BoardUser';
 import { Card } from './Card';

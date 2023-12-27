@@ -17,7 +17,7 @@ import {
   updateCard,
 } from '../controller/card.controller';
 import { Card } from '../entity/Card';
-import { AuthenticatedRequest } from '../models/types';
+import { AuthenticatedRequest } from '../types/types';
 import { repoMock } from './__mocks__/setupTests';
 
 let mockRequest: Partial<AuthenticatedRequest>;
