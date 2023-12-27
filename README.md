@@ -1,6 +1,6 @@
-# Building an Express and TypeORM API with TypeScript and PostgreSQL Database
+# Building a Trello-Like App with Express, TypeORM, TypeScript and PostgreSQL Database
 
-This project serves as a practical example of how to build a RESTful API using Express.js and TypeORM with TypeScript. It showcases the implementation of these technologies for seamless interaction with a PostgreSQL database.
+This project serves as a practical example of how to build a Trello-like RESTful API using Express.js and TypeORM with TypeScript. It showcases the implementation of these technologies for seamless interaction with a PostgreSQL database, enabling you to create a powerful project management and collaboration tool similar to Trello.
 
 ## Technologies I Use
 * Node.JS
@@ -8,6 +8,12 @@ This project serves as a practical example of how to build a RESTful API using E
 * TypeScript
 * TypeORM
 * PostgreSQL
+* Jest
+* Cypress
+* Eslint
+* Prettier
+* Swagger
+* JWT Authentication
 
 ## Prerequisites
 
