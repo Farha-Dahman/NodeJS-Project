@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Photo } from '../models/types';
+import { Photo } from '../types/types';
 import { BoardActivity } from './BoardActivity';
 import { BoardUser } from './BoardUser';
 import { Card } from './Card';
@@ -17,6 +17,8 @@ import { Notification } from './Notification';
 import { WorkspaceUser } from './WorkspaceUser';
 
 @Entity({ name: 'user' })
+@Index('user_isConfirmed_idx', ['isConfirmed'], { where: 'isConfirmed = true' })
+@Index('user_fullName_idx', ['fullName'])
 export class User {
   @PrimaryGeneratedColumn()
     id: number;

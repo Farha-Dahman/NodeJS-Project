@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Board } from './Board';
 import { User } from './User';
 
 @Entity({ name: 'board_user' })
+@Index('board_user_isAdmin_idx', ['isAdmin'], { where: 'isAdmin = true' })
 export class BoardUser {
   @PrimaryColumn()
     userId: number;

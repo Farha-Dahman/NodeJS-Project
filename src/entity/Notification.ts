@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
 
 @Entity({ name: 'notification' })
+@Index('notification_isRead_idx', ['isRead'], { where: 'isRead = true' })
 export class Notification {
   @PrimaryGeneratedColumn()
     id: number;

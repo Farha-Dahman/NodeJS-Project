@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from '../controller/user.controller';
 import { User } from '../entity/User';
-import { AuthenticatedRequest } from '../models/types';
+import { AuthenticatedRequest } from '../types/types';
 import cloudinary from '../services/cloudinary';
 import { repoMock } from './__mocks__/setupTests';
 

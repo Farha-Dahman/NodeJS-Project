@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -16,6 +17,8 @@ import { List } from './List';
 import { User } from './User';
 
 @Entity({ name: 'card' })
+@Index('card_isArchived_idx', ['isArchived'], { where: 'isArchived = true' })
+@Index('card_title_idx', ['title'])
 export class Card {
   @PrimaryGeneratedColumn()
     id: number;

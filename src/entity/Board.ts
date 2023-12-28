@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Index
 } from 'typeorm';
 import { BoardActivity } from './BoardActivity';
 import { BoardLabel } from './BoardLabel';
@@ -13,6 +14,7 @@ import { List } from './List';
 import { Workspace } from './Workspace';
 
 @Entity({ name: 'board' })
+@Index('board_isPublic_isClosed_idx', ['isPublic', 'isClosed'])
 export class Board {
   @PrimaryGeneratedColumn()
     id: number;

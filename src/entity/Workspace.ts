@@ -1,9 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './Board';
 import { User } from './User';
 import { WorkspaceUser } from './WorkspaceUser';
 
 @Entity({ name: 'workspace' })
+@Index('workspace_name_idx', ['name'])
 export class Workspace {
   @PrimaryGeneratedColumn()
     id: number;

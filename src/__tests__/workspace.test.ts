@@ -13,7 +13,7 @@ import {
 import { getAllMembers } from '../controller/workspace.controller';
 import { Workspace } from '../entity/Workspace';
 import { WorkspaceUser } from '../entity/WorkspaceUser';
-import { AuthenticatedRequest } from '../models/types';
+import { AuthenticatedRequest } from '../types/types';
 import { repoMock } from './__mocks__/setupTests';
 
 let mockRequest: Partial<AuthenticatedRequest>;

@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from './Card';
 import { User } from './User';
 
 @Entity({ name: 'comment' })
+@Index('comment_createdDate_idx', ['createdDate'])
 export class Comment {
   @PrimaryGeneratedColumn()
     id: number;

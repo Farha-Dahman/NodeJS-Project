@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './Board';
 import { User } from './User';
 
 @Entity({ name: 'board_activity' })
+@Index('board_activity_action_idx', ['action'])
 export class BoardActivity {
   @PrimaryGeneratedColumn()
     id: number;

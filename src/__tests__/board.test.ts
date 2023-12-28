@@ -16,7 +16,7 @@ import { Board } from '../entity/Board';
 import { BoardUser } from '../entity/BoardUser';
 import { User } from '../entity/User';
 import { Workspace } from '../entity/Workspace';
-import { AuthenticatedRequest } from '../models/types';
+import { AuthenticatedRequest } from '../types/types';
 import { repoMock } from './__mocks__/setupTests';
 
 let mockRequest: Partial<AuthenticatedRequest>;
