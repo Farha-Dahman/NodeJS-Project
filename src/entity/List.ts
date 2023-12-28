@@ -3,7 +3,7 @@ import { Board } from './Board';
 import { Card } from './Card';
 
 @Entity({ name: 'list' })
-@Index('isArchived_list_index', ['isArchived'])
+@Index('isArchived_list_index', ['isArchived'], { where: 'isArchived = true' })
 export class List {
   @PrimaryGeneratedColumn()
     id: number;

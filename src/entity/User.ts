@@ -17,65 +17,65 @@ import { Notification } from './Notification';
 import { WorkspaceUser } from './WorkspaceUser';
 
 @Entity({ name: 'user' })
-@Index('index_isConfirmed', ['isConfirmed'])
+@Index('index_isConfirmed', ['isConfirmed'], { where: 'isConfirmed = true' })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Index({ unique: true })
   @Column({ type: 'varchar', length: 255, nullable: false })
-  email: string;
+    email: string;
 
   @Column({ type: 'varchar', length: 1000, nullable: false })
-  password: string;
+    password: string;
 
   @Column({ type: 'boolean', default: false })
-  isConfirmed: boolean;
+    isConfirmed: boolean;
 
   @Index('index_fullName')
   @Column({ type: 'varchar', length: 255 })
-  fullName: string;
+    fullName: string;
 
   @Column({ type: 'json', nullable: true })
-  photo: Photo | null;
+    photo: Photo | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  phone: string;
+    phone: string;
 
   @Column({ default: 'Unknown', type: 'varchar', length: 100, nullable: true })
-  jobTitle: string;
+    jobTitle: string;
 
   @Column({ default: null, type: 'varchar', nullable: true })
-  codeSent: string | null;
+    codeSent: string | null;
 
   @Column({ type: 'timestamptz', default: new Date() })
-  createdAt: Date;
+    createdAt: Date;
 
   @Column({ type: 'timestamptz', default: new Date() })
-  updatedAt: Date;
+    updatedAt: Date;
 
   @OneToMany(() => WorkspaceUser, (workspaceUsers) => workspaceUsers.user)
-  workspaceUsers: WorkspaceUser[];
+    workspaceUsers: WorkspaceUser[];
 
   @OneToMany(() => BoardUser, (boardUsers) => boardUsers.user)
-  boardUsers: BoardUser[];
+    boardUsers: BoardUser[];
 
   @OneToMany(() => BoardActivity, (boardActivities) => boardActivities.user)
-  boardActivities: BoardActivity[];
+    boardActivities: BoardActivity[];
 
   @OneToMany(() => CardActivity, (cardActivities) => cardActivities.user)
-  cardActivities: CardActivity[];
+    cardActivities: CardActivity[];
 
   @ManyToMany(() => Card, (card) => card.users)
   @JoinTable({ name: 'card_user' })
-  cards: Card[];
+    cards: Card[];
 
   @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+    comments: Comment[];
 
   @OneToMany(() => Notification, (notification) => notification.sender)
-  sentNotifications: Notification[];
+    sentNotifications: Notification[];
 
   @OneToMany(() => Notification, (notification) => notification.receiver)
-  receivedNotifications: Notification[];
+    receivedNotifications: Notification[];
 }

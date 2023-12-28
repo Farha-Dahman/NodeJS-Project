@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedCol
 import { User } from './User';
 
 @Entity({ name: 'notification' })
+@Index('index_isRead', ['isRead'], { where: 'isRead = true' })
 export class Notification {
   @PrimaryGeneratedColumn()
     id: number;
@@ -12,7 +13,6 @@ export class Notification {
   @Column()
     action: string;
 
-  @Index('index_isRead')
   @Column({ type: 'boolean', default: false })
     isRead: boolean;
 

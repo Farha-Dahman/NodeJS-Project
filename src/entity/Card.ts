@@ -17,7 +17,7 @@ import { List } from './List';
 import { User } from './User';
 
 @Entity({ name: 'card' })
-@Index('isArchived_card_index', ['isArchived'])
+@Index('isArchived_card_index', ['isArchived'], { where: 'isArchived = true' })
 export class Card {
   @PrimaryGeneratedColumn()
     id: number;
