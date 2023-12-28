@@ -3,11 +3,11 @@ import { Board } from './Board';
 import { User } from './User';
 
 @Entity({ name: 'board_activity' })
+@Index('board_activity_action_idx', ['action'])
 export class BoardActivity {
   @PrimaryGeneratedColumn()
     id: number;
 
-  @Index('index_board_action')
   @Column({ type: 'text' })
     action: string;
 

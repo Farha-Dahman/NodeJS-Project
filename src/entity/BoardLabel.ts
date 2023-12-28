@@ -3,8 +3,8 @@ import { Board } from './Board';
 import { Card } from './Card';
 
 @Entity({ name: 'board_label' })
-@Index('title_index', ['title'])
-@Index('color_index', ['color'])
+@Index('board_label_title_idx', ['title'])
+@Index('board_label_color_idx', ['color'])
 export class BoardLabel {
   @PrimaryGeneratedColumn()
     id: number;

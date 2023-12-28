@@ -3,6 +3,7 @@ import { Card } from './Card';
 import { User } from './User';
 
 @Entity({ name: 'comment' })
+@Index('comment_createdDate_idx', ['createdDate'])
 export class Comment {
   @PrimaryGeneratedColumn()
     id: number;
@@ -10,7 +11,6 @@ export class Comment {
   @Column({ type: 'text' })
     content: string;
 
-  @Index('index_created_date')
   @CreateDateColumn()
     createdDate: Date;
 

@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedCol
 import { User } from './User';
 
 @Entity({ name: 'notification' })
-@Index('index_isRead', ['isRead'], { where: 'isRead = true' })
+@Index('notification_isRead_idx', ['isRead'], { where: 'isRead = true' })
 export class Notification {
   @PrimaryGeneratedColumn()
     id: number;

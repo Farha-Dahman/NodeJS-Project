@@ -15,7 +15,6 @@ export class AddPartialIndexs1703764794224 implements MigrationInterface {
         await queryRunner.query('DROP INDEX "isAdmin_index"');
         await queryRunner.query('DROP INDEX "isArchived_card_index"');
         await queryRunner.query('DROP INDEX "isArchived_list_index"');
-        await queryRunner.query('DROP INDEX "index_isRead"');
         await queryRunner.query('DROP INDEX "index_isConfirmed"');
         await queryRunner.query('DROP INDEX "index_isAdmin"');
     }

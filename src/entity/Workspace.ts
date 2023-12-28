@@ -4,11 +4,11 @@ import { User } from './User';
 import { WorkspaceUser } from './WorkspaceUser';
 
 @Entity({ name: 'workspace' })
+@Index('workspace_name_idx', ['name'])
 export class Workspace {
   @PrimaryGeneratedColumn()
     id: number;
 
-  @Index('index_name')  
   @Column({ type: 'varchar', length: 100 })
     name: string;
 

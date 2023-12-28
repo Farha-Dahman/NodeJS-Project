@@ -3,7 +3,7 @@ import { User } from './User';
 import { Workspace } from './Workspace';
 
 @Entity({ name: 'workspace_user' })
-@Index('index_isAdmin', ['isAdmin'], { where: 'isAdmin = true' })
+@Index('workspace_user_isAdmin_idx', ['isAdmin'], { where: 'isAdmin = true' })
 export class WorkspaceUser {
   @PrimaryColumn()
     userId: number;

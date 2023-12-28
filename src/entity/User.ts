@@ -17,7 +17,8 @@ import { Notification } from './Notification';
 import { WorkspaceUser } from './WorkspaceUser';
 
 @Entity({ name: 'user' })
-@Index('index_isConfirmed', ['isConfirmed'], { where: 'isConfirmed = true' })
+@Index('user_isConfirmed_idx', ['isConfirmed'], { where: 'isConfirmed = true' })
+@Index('user_fullName_idx', ['fullName'])
 export class User {
   @PrimaryGeneratedColumn()
     id: number;
@@ -32,7 +33,6 @@ export class User {
   @Column({ type: 'boolean', default: false })
     isConfirmed: boolean;
 
-  @Index('index_fullName')
   @Column({ type: 'varchar', length: 255 })
     fullName: string;
 

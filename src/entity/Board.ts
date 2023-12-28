@@ -14,7 +14,7 @@ import { List } from './List';
 import { Workspace } from './Workspace';
 
 @Entity({ name: 'board' })
-@Index('isPublic_isClosed_index', ['isPublic', 'isClosed'])
+@Index('board_isPublic_isClosed_idx', ['isPublic', 'isClosed'])
 export class Board {
   @PrimaryGeneratedColumn()
     id: number;
