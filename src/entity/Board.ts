@@ -25,6 +25,7 @@ export class Board {
   @Column({ type: 'boolean', default: false })
     isPublic: boolean;
 
+  @Index('board_isClosed_idx', ['isClosed'])
   @Column({ type: 'boolean', default: false })
     isClosed: boolean;
 
