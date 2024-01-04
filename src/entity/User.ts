@@ -48,6 +48,7 @@ export class User {
   @Column({ default: null, type: 'varchar', nullable: true })
     codeSent: string | null;
 
+  @Index('user_createdAt_idx', ['createdAt'])
   @Column({ type: 'timestamptz', default: new Date() })
     createdAt: Date;
 
